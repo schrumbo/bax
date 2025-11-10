@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "bax",
+	"version": "${version}",
+	"name": "bax",
+	"description": "Hypixel Skyblock focused qol mod",
+	"authors": [
+		"schrumbo"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "AGPL-3.0",
+	"icon": "assets/bax/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"schrumbo.bax.Bax"
+		],
+		"client": [
+			"schrumbo.bax.BaxClient"
+		]
+	},
+	"mixins": [
+		"bax.mixins.json",
+		{
+			"config": "bax.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.17.3",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -1,35 +1,51 @@
 package schrumbo.bax.features.mining;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.utils.ChatUtils.modMessage;
+import static schrumbo.bax.utils.InventoryUtils.*;
+import static schrumbo.bax.utils.ItemUtils.loreContains;
 
+/**
+ * lets the player claim commissions without directly clicking them
+ */
 public class CommissionClaiming {
 
     private static int currentIndex = 0;
     private static List<Slot> cachedCompletedCommissions = new ArrayList<>();
     private static String lastGuiTitle = "";
 
+    /**
+     * handles whether to claim a commission or close the gui
+     * @param screen
+     * @param mouseX
+     * @param mouseY
+     * @param button
+     * @return
+     */
     public static boolean handleClick(HandledScreen<?> screen, double mouseX, double mouseY, int button) {
-        if (button != 0) return false;
-        if (!isCommissionsGui(screen)) return false;
+        if (!config.easyCommissions)return false;
 
-        String currentTitle = screen.getTitle().getString();
-        if (!currentTitle.equals(lastGuiTitle)) {
-            updateCache(screen.getScreenHandler());
-            lastGuiTitle = currentTitle;
+        if (button != 0 && button != 1) return false;
+        if (!isInGui(screen, "Commissions")) return false;
+
+
+        Slot hoveredSlot = getSlotAt(screen, mouseX, mouseY);
+        if (hoveredSlot != null && shouldIgnoreSlot(hoveredSlot)) {
+            return false;
         }
+
+        updateCache(screen.getScreenHandler());
 
         if (cachedCompletedCommissions.isEmpty()) {
             closeGui();
@@ -39,13 +55,24 @@ public class CommissionClaiming {
         Slot targetSlot = cachedCompletedCommissions.get(currentIndex);
         clickSlot(targetSlot);
 
-
         currentIndex = (currentIndex + 1) % cachedCompletedCommissions.size();
-
-        updateCache(screen.getScreenHandler());
 
         return true;
     }
+
+    /**
+     * Doesnt Close the gui container if trying to click the Milestones or Filter
+     * @param slot
+     * @return
+     */
+    private static boolean shouldIgnoreSlot(Slot slot) {
+        ItemStack stack = slot.getStack();
+        if (stack.isEmpty()) return false;
+
+        String name = stack.getName().getString();
+        return name.contains("Filter") || name.contains("Commission Milestones");
+    }
+
 
     private static void updateCache(ScreenHandler screenHandler) {
         cachedCompletedCommissions.clear();
@@ -55,51 +82,9 @@ public class CommissionClaiming {
             ItemStack stack = slot.getStack();
             if (stack.isEmpty()) continue;
 
-            if (isCommissionItem(stack) && isCompleted(stack)) {
+            if (itemNameContains(stack, "Commission") && loreContains(stack, "COMPLETED")) {
                 cachedCompletedCommissions.add(slot);
             }
-        }
-    }
-
-    private static boolean isCommissionItem(ItemStack stack) {
-        return stack.getName().getString().contains("Commission");
-    }
-
-    private static boolean isCompleted(ItemStack stack) {
-        LoreComponent lore = stack.get(DataComponentTypes.LORE);
-        if (lore == null) return false;
-
-        for (Text line : lore.lines()) {
-            if (line.getString().contains("COMPLETED")) {
-                modMessage(stack.getName().toString() + "is ready to claim!");
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static boolean isCommissionsGui(HandledScreen<?> screen) {
-        return screen.getTitle().getString().contains("Commissions");
-    }
-
-    private static void clickSlot(Slot slot) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.interactionManager == null || client.player == null) return;
-
-        client.interactionManager.clickSlot(
-                client.player.currentScreenHandler.syncId,
-                slot.id,
-                0,
-                SlotActionType.PICKUP,
-                client.player
-        );
-    }
-
-    private static void closeGui() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player != null) {
-            client.player.closeHandledScreen();
         }
     }
 

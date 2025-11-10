@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import schrumbo.bax.features.mining.CommissionClaiming;
+import schrumbo.bax.features.mining.MineshaftEnter;
 
 @Mixin(HandledScreen.class)
 public class HandledScreenClickMixin {
@@ -14,6 +15,9 @@ public class HandledScreenClickMixin {
         HandledScreen<?> screen = (HandledScreen<?>) (Object) this;
 
         if (CommissionClaiming.handleClick(screen, mouseX, mouseY, button)) {
+            cir.setReturnValue(true);
+        }
+        if(MineshaftEnter.handleClick(screen, mouseX, mouseY, button)){
             cir.setReturnValue(true);
         }
     }

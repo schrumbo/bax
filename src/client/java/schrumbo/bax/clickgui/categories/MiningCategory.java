@@ -24,7 +24,26 @@ public class MiningCategory extends Category {
                 .value(config::getEasyCommissions, config::setEasyCommissions)
                 .build();
         widgets.add(lazyComms);
+
         currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
+
+        ToggleWidget drillSwap = ToggleWidget.builder()
+                .y(currentY)
+                .width(width)
+                .label("Drill Swap")
+                .value(config::getDrillSwap, config::setDrillSwap)
+                .build();
+        widgets.add(drillSwap);
+
+        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
+
+        ToggleWidget lazyShaftEnter = ToggleWidget.builder()
+                .y(currentY)
+                .width(width)
+                .label("Lazy Shaft Enter")
+                .value(config::getEasyShaftEnter, config::setEasyShaftEnter)
+                .build();
+        widgets.add(lazyShaftEnter);
         updateWidgetPositions(startX, startY);
     }
 

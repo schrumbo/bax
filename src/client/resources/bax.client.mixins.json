@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "schrumbo.bax.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"HandledScreenClickMixin",
+		"HandledScreenCloseMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

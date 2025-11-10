@@ -5,14 +5,10 @@ import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ItemUtils {
-    public boolean hasLoreContaining(ItemStack item, String string) {
-        if (item.isEmpty()) return false;
 
-        LoreComponent lore = item.get(DataComponentTypes.LORE);
+    public static boolean loreContains(ItemStack stack, String string) {
+        LoreComponent lore = stack.get(DataComponentTypes.LORE);
         if (lore == null) return false;
 
         for (Text line : lore.lines()) {
@@ -20,6 +16,7 @@ public class ItemUtils {
                 return true;
             }
         }
+
         return false;
     }
 }

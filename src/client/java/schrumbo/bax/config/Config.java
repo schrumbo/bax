@@ -4,14 +4,29 @@ import com.google.gson.annotations.SerializedName;
 
 public class Config {
     public boolean easyCommissions = false;
-
     public boolean getEasyCommissions(){
         return easyCommissions;
     }
-
     public void setEasyCommissions(boolean value){
         easyCommissions = value;
     }
+
+    public boolean drillSwap = false;
+    public boolean getDrillSwap(){
+        return drillSwap;
+    }
+    public void setDrillSwap(boolean value){
+        drillSwap = value;
+    }
+
+    public boolean easyShaftEnter = false;
+    public boolean getEasyShaftEnter(){
+        return easyShaftEnter;
+    }
+    public void setEasyShaftEnter(boolean value){
+        easyShaftEnter = value;
+    }
+
 
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();
