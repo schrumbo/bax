@@ -8,7 +8,6 @@ import net.minecraft.screen.slot.Slot;
 import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.utils.InventoryUtils.*;
 import static schrumbo.bax.utils.InventoryUtils.clickSlot;
-import static schrumbo.bax.utils.ItemUtils.loreContains;
 
 /**
  * lets the player enter a mineshaft without having to precisely click the right slot
@@ -23,7 +22,7 @@ public class MineshaftEnter {
         if (!isInGui(screen, "Glacite Mineshaft")) return false;
 
 
-        updateCache(screen.getScreenHandler());
+        updateTargetSlot(screen.getScreenHandler());
 
         if (targetSlot == null)return false;
         clickSlot(targetSlot);
@@ -31,7 +30,7 @@ public class MineshaftEnter {
         return true;
     }
 
-    private static void updateCache(ScreenHandler screenHandler) {
+    private static void updateTargetSlot(ScreenHandler screenHandler) {
         for (Slot slot : screenHandler.slots) {
             ItemStack stack = slot.getStack();
             if (stack.isEmpty()) continue;

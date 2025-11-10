@@ -1,9 +1,9 @@
 package schrumbo.bax;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.world.gen.feature.LakeFeature;
 import schrumbo.bax.config.Config;
 import schrumbo.bax.config.ConfigManager;
+import schrumbo.bax.features.dungeons.MobEsp;
 import schrumbo.bax.features.mining.CommissionClaiming;
 import schrumbo.bax.features.mining.DrillSwap;
 import schrumbo.bax.utils.KeybindHandler;
@@ -20,7 +20,7 @@ public class BaxClient implements ClientModInitializer {
 		configManager = new ConfigManager();
 		config = configManager.load();
 		DrillSwap.register();
-
+		MobEsp.register();
 		KeybindHandler.register();
 	}
 }

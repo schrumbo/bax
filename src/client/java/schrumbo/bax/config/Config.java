@@ -28,6 +28,23 @@ public class Config {
     }
 
 
+    public boolean starredESP = false;
+    public boolean getStarredESP(){
+        return starredESP;
+    }
+    public void setStarredESP(boolean value){
+        starredESP = value;
+    }
+
+    public boolean maniacESP = false;
+    public boolean getManiacESP(){
+        return maniacESP;
+    }
+    public void setManiacESP(boolean value){
+        maniacESP = value;
+    }
+
+
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();
 

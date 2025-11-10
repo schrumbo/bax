@@ -1,8 +1,115 @@
 package schrumbo.bax.utils;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.*;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
+import org.joml.*;
+import org.lwjgl.opengl.GL11;
+
+import java.lang.Math;
+
+import static schrumbo.bax.BaxClient.config;
 
 public class RenderUtils {
+
+    /**
+     * renders the hitbox of an entity
+     * @param entity
+     * @param camera
+     * @param matrices
+     */
+    public static void renderHitbox(Entity entity, Camera camera, MatrixStack matrices) {
+        Vec3d cameraPos = camera.getPos();
+        Box box = entity.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+
+        preRender();
+
+        VertexConsumerProvider.Immediate vcp = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+        RenderLayer layer = RenderLayer.getLines();
+        VertexConsumer buffer = vcp.getBuffer(layer);
+        drawOutlinedBox(matrices, buffer, box, config.colorWithAlpha(config.guicolors.accent, 1.0f));
+
+        vcp.draw(layer);
+        postRender();
+    }
+
+    /**
+     * disables DepthTest before rendering
+     */
+    public static void preRender(){
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+    }
+
+    /**
+     * reenables DepthTest after rendering
+     */
+    public static void postRender(){
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+    }
+
+    /**
+     * the hitbox of mobs
+     * @param matrices
+     * @param buffer
+     * @param box
+     * @param color
+     */
+    private static void drawOutlinedBox(MatrixStack matrices, VertexConsumer buffer, Box box, int color) {
+        MatrixStack.Entry entry = matrices.peek();
+        float x1 = (float)box.minX;
+        float y1 = (float)box.minY;
+        float z1 = (float)box.minZ;
+        float x2 = (float)box.maxX;
+        float y2 = (float)box.maxY;
+        float z2 = (float)box.maxZ;
+
+        //bot
+        buffer.vertex(entry, x1, y1, z1).color(color).normal(entry, 1, 0, 0);
+        buffer.vertex(entry, x2, y1, z1).color(color).normal(entry, 1, 0, 0);
+
+        buffer.vertex(entry, x2, y1, z1).color(color).normal(entry, 0, 0, 1);
+        buffer.vertex(entry, x2, y1, z2).color(color).normal(entry, 0, 0, 1);
+
+        buffer.vertex(entry, x2, y1, z2).color(color).normal(entry, -1, 0, 0);
+        buffer.vertex(entry, x1, y1, z2).color(color).normal(entry, -1, 0, 0);
+
+        buffer.vertex(entry, x1, y1, z2).color(color).normal(entry, 0, 0, -1);
+        buffer.vertex(entry, x1, y1, z1).color(color).normal(entry, 0, 0, -1);
+
+        //top
+        buffer.vertex(entry, x1, y2, z1).color(color).normal(entry, 1, 0, 0);
+        buffer.vertex(entry, x2, y2, z1).color(color).normal(entry, 1, 0, 0);
+
+        buffer.vertex(entry, x2, y2, z1).color(color).normal(entry, 0, 0, 1);
+        buffer.vertex(entry, x2, y2, z2).color(color).normal(entry, 0, 0, 1);
+
+        buffer.vertex(entry, x2, y2, z2).color(color).normal(entry, -1, 0, 0);
+        buffer.vertex(entry, x1, y2, z2).color(color).normal(entry, -1, 0, 0);
+
+        buffer.vertex(entry, x1, y2, z2).color(color).normal(entry, 0, 0, -1);
+        buffer.vertex(entry, x1, y2, z1).color(color).normal(entry, 0, 0, -1);
+
+        //vert
+        buffer.vertex(entry, x1, y1, z1).color(color).normal(entry, 0, 1, 0);
+        buffer.vertex(entry, x1, y2, z1).color(color).normal(entry, 0, 1, 0);
+
+        buffer.vertex(entry, x2, y1, z1).color(color).normal(entry, 0, 1, 0);
+        buffer.vertex(entry, x2, y2, z1).color(color).normal(entry, 0, 1, 0);
+
+        buffer.vertex(entry, x2, y1, z2).color(color).normal(entry, 0, 1, 0);
+        buffer.vertex(entry, x2, y2, z2).color(color).normal(entry, 0, 1, 0);
+
+        buffer.vertex(entry, x1, y1, z2).color(color).normal(entry, 0, 1, 0);
+        buffer.vertex(entry, x1, y2, z2).color(color).normal(entry, 0, 1, 0);
+    }
 
 
     public static void fillRoundedRect(DrawContext context, int x, int y, int width, int height, float radius, int color) {

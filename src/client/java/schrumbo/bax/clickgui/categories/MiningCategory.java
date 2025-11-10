@@ -44,6 +44,16 @@ public class MiningCategory extends Category {
                 .value(config::getEasyShaftEnter, config::setEasyShaftEnter)
                 .build();
         widgets.add(lazyShaftEnter);
+
+        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
+
+        ToggleWidget maniacESP = ToggleWidget.builder()
+                .y(currentY)
+                .width(width)
+                .label("Maniac ESP")
+                .value(config::getManiacESP, config::setManiacESP)
+                .build();
+        widgets.add(maniacESP);
         updateWidgetPositions(startX, startY);
     }
 

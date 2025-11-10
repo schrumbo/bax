@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import schrumbo.bax.clickgui.categories.Category;
+import schrumbo.bax.clickgui.categories.DungeonsCategory;
 import schrumbo.bax.clickgui.categories.GeneralCategory;
 import schrumbo.bax.clickgui.categories.MiningCategory;
 import schrumbo.bax.clickgui.widgets.Widget;
@@ -54,6 +55,7 @@ public class ClickGuiScreen extends Screen {
         categories.clear();
         categories.add(new GeneralCategory());
         categories.add(new MiningCategory());
+        categories.add(new DungeonsCategory());
         selectedCategory = categories.getFirst();
     }
 
