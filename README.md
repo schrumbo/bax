@@ -22,9 +22,8 @@
 
 ## Usage
 
-- Open ClickGUI with `Right Shift` (configurable)
+- Open ClickGUI with `Right Shift`
 - Use `/bax` commands for entity highlighting
-- Configure features through the GUI or config files
 
 ## Commands
 
