@@ -18,18 +18,28 @@ import java.io.IOException;
 public class ConfigManager {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger LOGGER =  LoggerFactory.getLogger(ConfigManager.class.getName());
+
     public static Config config = new Config();
+    public static HighlightConfig highlightConfig = new HighlightConfig();
+
     private final MinecraftClient client = MinecraftClient.getInstance();
 
     private static final File CONFIG_FILE = new File(
-            FabricLoader.getInstance().getConfigDir().toFile(),
-            "bax.json"
+            FabricLoader.getInstance().getConfigDir().toFile(), "bax/bax.json"
     );
+
+    private static final File HIGHLIGHT_CONFIG_FILE = new File(
+            FabricLoader.getInstance().getConfigDir().toFile(), "bax/baxhighlight.json"
+    );
+
+    private static final File CONFIG_DIRECTORY = new File(FabricLoader.getInstance().getConfigDir().toFile(), "bax");
 
     /**
      * loads config from file - creates new if needed
      */
     public static Config load(){
+        checkConfigDirectory();
+
         if(!CONFIG_FILE.exists()){
             LOGGER.info("creating new config file");
             save();
@@ -55,4 +65,49 @@ public class ConfigManager {
             LOGGER.info("failed to write changes to config" + e);
         }
     }
+
+
+    /**
+     * loads the config file for the mob highlighting feature
+     * @return
+     */
+    public static HighlightConfig loadHighlightConfig(){
+        checkConfigDirectory();
+
+        if (!HIGHLIGHT_CONFIG_FILE.exists()){
+            LOGGER.info("creating new mob highlight config");
+            saveHighlightConfig();
+            return new HighlightConfig();
+        }
+
+        try(FileReader reader = new FileReader(HIGHLIGHT_CONFIG_FILE)){
+            highlightConfig = GSON.fromJson(reader, HighlightConfig.class);
+        }catch(IOException e){
+            highlightConfig = new HighlightConfig();
+            LOGGER.info("failed to read config, using default");
+        }
+        return highlightConfig;
+    }
+
+    /**
+     * writes changes to the mob highlighting config to the file
+     */
+    public static void saveHighlightConfig(){
+        try(FileWriter writer = new FileWriter(HIGHLIGHT_CONFIG_FILE)){
+            GSON.toJson(highlightConfig, writer);
+        }catch (IOException e){
+            LOGGER.info("failed to write changes to config" + e);
+        }
+    }
+
+    /**
+     * ensures that the config directory is existent
+     */
+    private static void checkConfigDirectory(){
+        if (!CONFIG_DIRECTORY.exists()){
+            CONFIG_DIRECTORY.mkdirs();
+        }
+    }
+
+
 }

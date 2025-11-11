@@ -4,8 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import schrumbo.bax.config.Config;
-import schrumbo.bax.utils.RenderUtils;
-
+import schrumbo.bax.utils.render.RenderUtils;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

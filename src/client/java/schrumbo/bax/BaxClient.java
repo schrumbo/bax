@@ -3,24 +3,32 @@ package schrumbo.bax;
 import net.fabricmc.api.ClientModInitializer;
 import schrumbo.bax.config.Config;
 import schrumbo.bax.config.ConfigManager;
-import schrumbo.bax.features.dungeons.MobEsp;
-import schrumbo.bax.features.mining.CommissionClaiming;
+import schrumbo.bax.config.HighlightConfig;
 import schrumbo.bax.features.mining.DrillSwap;
+import schrumbo.bax.features.misc.Commands;
+import schrumbo.bax.features.misc.MobHighlight;
 import schrumbo.bax.utils.KeybindHandler;
+import schrumbo.bax.utils.location.LocationManager;
 
 public class BaxClient implements ClientModInitializer {
-	public static final CommissionClaiming commissionClaiming = new CommissionClaiming();
-
 	public static Config config;
+	public static HighlightConfig highlightConfig;
 	public static ConfigManager configManager;
 
 
 	@Override
 	public void onInitializeClient() {
+
+		//CONFIG INIT HERE
 		configManager = new ConfigManager();
-		config = configManager.load();
+		config = ConfigManager.load();
+		highlightConfig = ConfigManager.loadHighlightConfig();
+
+		//FEATURE REGISTRATION HERE
 		DrillSwap.register();
-		MobEsp.register();
+		MobHighlight.register();
+		LocationManager.register();
 		KeybindHandler.register();
+		Commands.register();
 	}
 }

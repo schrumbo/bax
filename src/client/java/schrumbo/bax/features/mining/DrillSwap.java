@@ -6,6 +6,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import schrumbo.bax.utils.location.Location;
+
+import static schrumbo.bax.BaxClient.config;
+import static schrumbo.bax.utils.location.LocationManager.currentLocation;
 
 /**
  * swaps to the drill after opening the royal pigeon
@@ -16,6 +20,9 @@ public class DrillSwap {
 
     public static void register() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+            if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows)return ActionResult.PASS;
+            if (!config.drillSwap)return ActionResult.PASS;
+
             ItemStack stack = player.getStackInHand(hand);
 
             if (stack.getName().getString().contains("Royal Pigeon")) {
@@ -26,6 +33,9 @@ public class DrillSwap {
         });
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
+            if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows)return ActionResult.PASS;
+            if (!config.drillSwap)return ActionResult.PASS;
+
             ItemStack stack = player.getStackInHand(hand);
 
             if (stack.getName().getString().contains("Royal Pigeon")) {
@@ -36,6 +46,7 @@ public class DrillSwap {
         });
 
     }
+
 
     /**
      * switches to the drill slot after a short delay to avoid not clicking the royal pigeon

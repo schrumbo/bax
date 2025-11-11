@@ -11,6 +11,10 @@ public class Config {
         easyCommissions = value;
     }
 
+    @SerializedName("selectedCategory")
+    public String selectedCategory = null;
+
+
     public boolean drillSwap = false;
     public boolean getDrillSwap(){
         return drillSwap;

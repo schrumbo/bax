@@ -5,7 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import schrumbo.bax.clickgui.widgets.ColorPickerWidget;
 import schrumbo.bax.clickgui.widgets.Widget;
-import schrumbo.bax.utils.RenderUtils;
+import schrumbo.bax.utils.render.RenderUtils;
 
 import java.util.ArrayList;
 import java.util.List;

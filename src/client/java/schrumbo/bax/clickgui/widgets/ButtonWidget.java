@@ -5,7 +5,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import schrumbo.bax.Bax;
-import schrumbo.bax.utils.RenderUtils;
+import schrumbo.bax.utils.render.RenderUtils;
 
 import static schrumbo.bax.BaxClient.config;
 

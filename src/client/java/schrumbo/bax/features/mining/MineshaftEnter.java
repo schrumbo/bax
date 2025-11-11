@@ -7,7 +7,6 @@ import net.minecraft.screen.slot.Slot;
 
 import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.utils.InventoryUtils.*;
-import static schrumbo.bax.utils.InventoryUtils.clickSlot;
 
 /**
  * lets the player enter a mineshaft without having to precisely click the right slot

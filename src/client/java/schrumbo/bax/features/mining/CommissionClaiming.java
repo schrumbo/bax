@@ -1,18 +1,16 @@
 package schrumbo.bax.features.mining;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
+import schrumbo.bax.utils.location.Location;
+import schrumbo.bax.utils.location.LocationManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static schrumbo.bax.BaxClient.config;
-import static schrumbo.bax.utils.ChatUtils.modMessage;
 import static schrumbo.bax.utils.InventoryUtils.*;
 import static schrumbo.bax.utils.ItemUtils.loreContains;
 
@@ -35,7 +33,7 @@ public class CommissionClaiming {
      */
     public static boolean handleClick(HandledScreen<?> screen, double mouseX, double mouseY, int button) {
         if (!config.easyCommissions)return false;
-
+        if (LocationManager.currentLocation != Location.DwarvenMines && LocationManager.currentLocation != Location.CrystalHollows)return false;
         if (button != 0 && button != 1) return false;
         if (!isInGui(screen, "Commissions")) return false;
 

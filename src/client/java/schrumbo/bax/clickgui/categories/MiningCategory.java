@@ -1,7 +1,6 @@
 package schrumbo.bax.clickgui.categories;
 
 
-import schrumbo.bax.clickgui.widgets.ColorPickerWidget;
 import schrumbo.bax.clickgui.widgets.ToggleWidget;
 
 import static schrumbo.bax.BaxClient.config;

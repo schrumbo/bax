@@ -1,22 +1,20 @@
-package schrumbo.bax.utils;
+package schrumbo.bax.utils.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
-import org.joml.*;
 import org.lwjgl.opengl.GL11;
 
-import java.lang.Math;
-
 import static schrumbo.bax.BaxClient.config;
+import static schrumbo.bax.BaxClient.highlightConfig;
 
 public class RenderUtils {
 
@@ -27,17 +25,22 @@ public class RenderUtils {
      * @param matrices
      */
     public static void renderHitbox(Entity entity, Camera camera, MatrixStack matrices) {
+        if (!highlightConfig.enabled)return;
+
         Vec3d cameraPos = camera.getPos();
         Box box = entity.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
         preRender();
 
         VertexConsumerProvider.Immediate vcp = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+
         RenderLayer layer = RenderLayer.getLines();
         VertexConsumer buffer = vcp.getBuffer(layer);
-        drawOutlinedBox(matrices, buffer, box, config.colorWithAlpha(config.guicolors.accent, 1.0f));
+
+        drawOutlinedBox(matrices, buffer, box, config.colorWithAlpha(highlightConfig.highlightColor, highlightConfig.highlightOpacity));
 
         vcp.draw(layer);
+
         postRender();
     }
 
@@ -45,14 +48,22 @@ public class RenderUtils {
      * disables DepthTest before rendering
      */
     public static void preRender(){
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        RenderSystem.lineWidth(4.0f);
+        if (!highlightConfig.depthCheck){
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+        }
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
     }
 
     /**
      * reenables DepthTest after rendering
      */
     public static void postRender(){
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        RenderSystem.lineWidth(1.0f);
+        if (!highlightConfig.depthCheck){
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+        }
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
     }
 
     /**
@@ -110,6 +121,8 @@ public class RenderUtils {
         buffer.vertex(entry, x1, y1, z2).color(color).normal(entry, 0, 1, 0);
         buffer.vertex(entry, x1, y2, z2).color(color).normal(entry, 0, 1, 0);
     }
+
+
 
 
     public static void fillRoundedRect(DrawContext context, int x, int y, int width, int height, float radius, int color) {
@@ -170,28 +183,7 @@ public class RenderUtils {
     private static void fillRoundedCorner(DrawContext context, int x, int y, int radius, int color, int corner) {
         for (int dx = 0; dx < radius; dx++) {
             for (int dy = 0; dy < radius; dy++) {
-                int checkX = 0, checkY = 0;
-
-                switch (corner) {
-                    case 1:
-                        checkX = radius - 1 - dx;
-                        checkY = radius - 1 - dy;
-                        break;
-                    case 2:
-                        checkX = dx;
-                        checkY = radius - 1 - dy;
-                        break;
-                    case 3:
-                        checkX = dx;
-                        checkY = dy;
-                        break;
-                    case 4:
-                        checkX = radius - 1 - dx;
-                        checkY = dy;
-                        break;
-                }
-
-                double distance = Math.sqrt(checkX * checkX + checkY * checkY);
+                double  distance = calcCorner(radius, corner, dx, dy);
                 if (distance <= radius) {
                     context.fill(x + dx, y + dy, x + dx + 1, y + dy + 1, color);
                 }
@@ -206,33 +198,38 @@ public class RenderUtils {
     private static void drawRoundedCornerOutline(DrawContext context, int x, int y, int radius, int thickness, int color, int corner) {
         for (int dx = 0; dx < radius; dx++) {
             for (int dy = 0; dy < radius; dy++) {
-                int checkX = 0, checkY = 0;
-
-                switch (corner) {
-                    case 1:
-                        checkX = radius - 1 - dx;
-                        checkY = radius - 1 - dy;
-                        break;
-                    case 2:
-                        checkX = dx;
-                        checkY = radius - 1 - dy;
-                        break;
-                    case 3:
-                        checkX = dx;
-                        checkY = dy;
-                        break;
-                    case 4:
-                        checkX = radius - 1 - dx;
-                        checkY = dy;
-                        break;
-                }
-
-                double distance = Math.sqrt(checkX * checkX + checkY * checkY);
+                double distance = calcCorner(radius, corner, dx, dy);
                 if (distance >= radius - thickness && distance <= radius) {
                     context.fill(x + dx, y + dy, x + dx + 1, y + dy + 1, color);
                 }
             }
         }
+    }
+
+    private static double calcCorner(int radius, int corner, int dx, int dy) {
+        int checkX = 0, checkY = 0;
+
+        checkY = switch (corner) {
+            case 1 -> {
+                checkX = radius - 1 - dx;
+                yield radius - 1 - dy;
+            }
+            case 2 -> {
+                checkX = dx;
+                yield radius - 1 - dy;
+            }
+            case 3 -> {
+                checkX = dx;
+                yield dy;
+            }
+            case 4 -> {
+                checkX = radius - 1 - dx;
+                yield dy;
+            }
+            default -> checkY;
+        };
+
+        return Math.sqrt(checkX * checkX + checkY * checkY);
     }
 
     public static void drawRectWithCutCorners(DrawContext context, int x, int y, int width, int height, int thickness, int color) {
