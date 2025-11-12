@@ -13,6 +13,7 @@ public enum Location {
     GoldMine("Gold Mine"),
     DeepCaverns("Deep Caverns"),
     DwarvenMines("Dwarven Mines"),
+    Mineshaft("Mineshaft"),
     CrystalHollows("Crystal Hollows"),
     JerrysWorkshop("Jerry's Workshop"),
     DungeonHub("Dungeon Hub"),

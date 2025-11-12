@@ -2,6 +2,7 @@ package schrumbo.bax.utils.location;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import schrumbo.bax.Bax;
+import schrumbo.bax.utils.ChatUtils;
 import schrumbo.bax.utils.TablistUtils;
 
 import java.util.List;
@@ -36,11 +37,23 @@ public class LocationManager {
 
             String cleanLine = noColorCodes(line);
             cleanLine = removePrefix(cleanLine, "Area: ");
-
             Location loc = Location.isLocation(cleanLine);
+
             if (loc != null) {
                 Bax.LOGGER.info("Location: " + loc.getDisplayName());
                 currentLocation = loc;
+                return;
+            }
+
+            //Dungeon check
+            String catacombsLine = noColorCodes(line);
+            catacombsLine = removePrefix(catacombsLine, "Dungeon: ");
+            Location cataLoc = Location.isLocation(catacombsLine);
+
+            if (cataLoc != null){
+                Bax.LOGGER.info("Dungeon: " + cataLoc.getDisplayName());
+                ChatUtils.modMessage(cataLoc.getDisplayName());
+                currentLocation = cataLoc;
                 return;
             }
         }

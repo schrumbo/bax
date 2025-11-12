@@ -14,7 +14,7 @@ public class GeneralCategory extends Category {
     @Override
     public void initializeWidgets(int startX, int startY, int width) {
 
-        int currentY = startY;
+        currentY = startY;
 
         ColorPickerWidget accentColorPicker = ColorPickerWidget.builder()
                 .width(width)

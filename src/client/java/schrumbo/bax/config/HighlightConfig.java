@@ -18,6 +18,7 @@ public class HighlightConfig {
         enabled = value;
     }
 
+
     /**
      * list of all mob names which should be highlighted
      */

@@ -31,21 +31,65 @@ public class Config {
         easyShaftEnter = value;
     }
 
+    //STARRED HIGHLIGHT
+    public boolean starredHighlight = false;
+    public boolean getStarredHighlight(){
+        return starredHighlight;
+    }
+    public void setStarredHighlight(boolean value){
+        starredHighlight = value;
+    }
 
-    public boolean starredESP = false;
-    public boolean getStarredESP(){
-        return starredESP;
-    }
-    public void setStarredESP(boolean value){
-        starredESP = value;
+    public int starredColor = 0xFFfce80c;
+    public void setStarredColor(int color){
+        starredColor = color;
     }
 
-    public boolean maniacESP = false;
-    public boolean getManiacESP(){
-        return maniacESP;
+
+    //MANIAC HIGHLIGHT
+    public boolean maniacHighlight = false;
+    public boolean getManiacHighlight(){
+        return maniacHighlight;
     }
-    public void setManiacESP(boolean value){
-        maniacESP = value;
+    public void setManiacHighlight(boolean value){
+        maniacHighlight = value;
+    }
+
+    public int maniacColor =  0xFF1baff9;
+    public int getManiacColor(){
+        return maniacColor;
+    };
+    public void setManiacColor(int color){
+        maniacColor = color;
+    }
+
+    //MINIBOSS HIGHLIGHT
+    public boolean minibossHighlight = false;
+    public boolean getMinibossHighlight(){
+        return minibossHighlight;
+    };
+    public void setMinibossHighlight(boolean value){
+        minibossHighlight = value;
+    }
+
+    public int shadowAssassinColor = 0xFF6d6d6d;
+    public void setShadowAssassinColor(int color){
+        shadowAssassinColor = color;
+    }
+
+    public int lostAdventurerColor = 0xFFc62b6e;
+    public void setLostAdventurerColor(int color){
+        lostAdventurerColor = color;
+    }
+
+    public int angryArcheologistColor = 0xFF4ed5ed;
+    public void setAngryArcheologistColor(int color){
+        angryArcheologistColor = color;
+    }
+
+    public int frozenAdventurerColor = 0xFFd6d6d6;
+    public void setFrozenAdventurerColor(int color){
+        frozenAdventurerColor = color;
     }
 
 

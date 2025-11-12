@@ -6,9 +6,11 @@ public abstract class Widget {
     protected int x, y;
     protected int width;
     protected int height;
-    protected String label;
+    public String label;
     protected boolean hovered;
     protected final int PADDING = 15;
+    protected int originalY;
+    protected  int WIDGET_SPACING = 5;
 
 
     protected Widget(Builder<?> builder){
@@ -31,6 +33,19 @@ public abstract class Widget {
         this.x = x;
         this.y = y;
     }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
+    public void setOriginalY(int y) {
+        this.originalY = y;
+    }
+
+    public int getOriginalY() {
+        return originalY;
+    }
+
 
     public boolean isHovered(double mouseX, double mouseY) {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;

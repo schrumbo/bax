@@ -1,7 +1,9 @@
 package schrumbo.bax.clickgui.categories;
 
 
+import schrumbo.bax.clickgui.widgets.ColorPickerWidget;
 import schrumbo.bax.clickgui.widgets.ToggleWidget;
+import schrumbo.bax.clickgui.widgets.WidgetDropdownWidget;
 
 import static schrumbo.bax.BaxClient.config;
 
@@ -14,7 +16,7 @@ public class MiningCategory extends Category {
     @Override
     public void initializeWidgets(int startX, int startY, int width) {
 
-        int currentY = startY;
+        currentY = startY;
 
         ToggleWidget lazyComms = ToggleWidget.builder()
                 .y(currentY)
@@ -44,15 +46,31 @@ public class MiningCategory extends Category {
                 .build();
         widgets.add(lazyShaftEnter);
 
-        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
-
-        ToggleWidget maniacESP = ToggleWidget.builder()
-                .y(currentY)
+        ToggleWidget maniacHighlight = ToggleWidget.builder()
                 .width(width)
                 .label("Maniac ESP")
-                .value(config::getManiacESP, config::setManiacESP)
+                .value(config::getManiacHighlight, config::setManiacHighlight)
                 .build();
-        widgets.add(maniacESP);
+
+        ColorPickerWidget maniacColor = ColorPickerWidget.builder()
+                .width(width)
+                .label("Maniac Highlight Color")
+                .color(() -> config.maniacColor, config::setManiacColor)
+                .build();
+
+        WidgetDropdownWidget maniacHighlightDropdown = new WidgetDropdownWidget.Builder()
+                .y(startY + currentY)
+                .width(width)
+                .label("Maniac Highlight")
+                .addChild(maniacHighlight)
+                .addChild(maniacColor)
+                .build();
+        maniacHighlightDropdown.setParentCategory(this);
+        widgets.add(maniacHighlightDropdown);
+        currentY += maniacHighlightDropdown.getHeight() + WIDGET_SPACING;
+
+
+
         updateWidgetPositions(startX, startY);
     }
 

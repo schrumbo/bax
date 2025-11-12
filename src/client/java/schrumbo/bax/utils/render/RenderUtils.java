@@ -24,9 +24,7 @@ public class RenderUtils {
      * @param camera
      * @param matrices
      */
-    public static void renderHitbox(Entity entity, Camera camera, MatrixStack matrices) {
-        if (!highlightConfig.enabled)return;
-
+    public static void renderHitbox(Entity entity, Camera camera, MatrixStack matrices, int color) {
         Vec3d cameraPos = camera.getPos();
         Box box = entity.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
@@ -37,7 +35,7 @@ public class RenderUtils {
         RenderLayer layer = RenderLayer.getLines();
         VertexConsumer buffer = vcp.getBuffer(layer);
 
-        drawOutlinedBox(matrices, buffer, box, config.colorWithAlpha(highlightConfig.highlightColor, highlightConfig.highlightOpacity));
+        drawOutlinedBox(matrices, buffer, box, color);
 
         vcp.draw(layer);
 

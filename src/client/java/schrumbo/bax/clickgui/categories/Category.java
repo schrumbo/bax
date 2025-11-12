@@ -17,6 +17,9 @@ public abstract class Category {
     protected String name;
     public List<Widget> widgets;
     protected boolean widgetsInitialized;
+    public int currentY;
+
+    public int widgetsHeight = 0;
 
     protected int x, y;
     protected int width;
@@ -46,19 +49,53 @@ public abstract class Category {
         }
     }
 
-
-    protected void updateWidgetPositions(int startX, int startY) {
-        int currentY = startY;
+    protected void calculateWidgetsHeight() {
+        if (widgets.isEmpty()) {
+            widgetsHeight = 0;
+            currentY = 0;
+            return;
+        }
+        currentY = 0;
         for (Widget widget : widgets) {
-            widget.setPosition(startX, currentY);
+            widget.setOriginalY(currentY);
             currentY += widget.getHeight() + WIDGET_SPACING;
         }
+        widgetsHeight = currentY;
+    }
+
+    public void recalculateWidgetPositions() {
+        calculateWidgetsHeight();
+        int startY = schrumbo.bax.clickgui.ClickGuiScreen.getPanelY() + 25 + 10;
+        int currentY = 0;
+
+        for (Widget widget : widgets) {
+            widget.setOriginalY(currentY);
+            widget.setY(startY + currentY);
+            currentY += widget.getHeight() + WIDGET_SPACING;
+        }
+    }
+
+    protected void updateWidgetPositions(int startX, int startY) {
+        currentY = 0;
+        for (Widget widget : widgets) {
+            widget.setOriginalY(currentY);
+            widget.setPosition(startX, startY + currentY);
+            currentY += widget.getHeight() + WIDGET_SPACING;
+        }
+        widgetsHeight = currentY;
     }
 
 
     public void renderWidgets(DrawContext context, int mouseX, int mouseY, float delta) {
         for (Widget widget : widgets) {
             widget.render(context, mouseX, mouseY, delta);
+        }
+    }
+
+    public void setWidgetScrollOffset(int offset) {
+        int startY = schrumbo.bax.clickgui.ClickGuiScreen.getPanelY() + 25 + 10;
+        for (Widget widget : widgets) {
+            widget.setY(startY + widget.getOriginalY() - offset);
         }
     }
 
@@ -96,6 +133,8 @@ public abstract class Category {
 
         matrices.popMatrix();
     }
+
+
 
     public boolean mouseClickedWidgets(double mouseX, double mouseY, int button) {
         for (Widget widget : widgets) {

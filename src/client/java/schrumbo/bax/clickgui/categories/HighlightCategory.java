@@ -13,7 +13,7 @@ public class HighlightCategory extends Category{
     @Override
     public void initializeWidgets(int startX, int startY, int width) {
 
-        int currentY = startY;
+        currentY = startY;
 
         ToggleWidget mobHighlight = ToggleWidget.builder()
                 .y(currentY)

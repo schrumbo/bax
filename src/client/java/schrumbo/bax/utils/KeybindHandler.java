@@ -6,13 +6,14 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import schrumbo.bax.clickgui.ClickGuiScreen;
+import schrumbo.bax.utils.render.HighlightUtils;
 
 
 /**
  * handles keybindings
  */
 public class KeybindHandler {
-    private static KeyBinding toggleHudKey;
+    private static KeyBinding debugKey;
     private static KeyBinding configKey;
     private static final String CATEGORY = "Bax";
     /**
@@ -26,10 +27,20 @@ public class KeybindHandler {
                 CATEGORY
         ));
 
+        debugKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "Debug Entities",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_DOWN,
+                CATEGORY
+        ));
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
             if(configKey.wasPressed()){
                 client.setScreen(new ClickGuiScreen());
+            }
+            if (debugKey.wasPressed()){
+                HighlightUtils.debugEntities();
             }
         });
 

@@ -5,12 +5,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import schrumbo.bax.utils.entity.CustomPlayerEntity;
+import schrumbo.bax.utils.location.Location;
+import schrumbo.bax.utils.location.LocationManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.BaxClient.highlightConfig;
-import static schrumbo.bax.utils.render.HighlightUtils.getEntityByArmorStandName;
+
+import static schrumbo.bax.utils.render.HighlightUtils.*;
 import static schrumbo.bax.utils.render.RenderUtils.renderHitbox;
 
 /**
@@ -27,13 +32,91 @@ public class MobHighlight {
             Camera camera = context.camera();
             MatrixStack matrices = context.matrixStack();
 
-            List<Entity> entities = new ArrayList<>();
-            for (String name : names){
-                entities.addAll(getEntityByArmorStandName(name));
-            }
-            for (Entity entity : entities){
-                renderHitbox(entity, camera, matrices);
-            }
+            initHighlighting(camera, matrices);
         });
     }
+
+
+    /**
+     * highlighting registration goes here
+     * @param camera
+     * @param matrices
+     */
+    public static void initHighlighting(Camera camera, MatrixStack matrices){
+        minisHighlight(camera, matrices);
+        starredHighlight(camera, matrices);
+        maniacHighlight(camera, matrices);
+    }
+
+
+    /**
+     * handles miniboss highlighting if enabled
+     * @param camera
+     * @param matrices
+     */
+    private static void minisHighlight(Camera camera, MatrixStack matrices){
+        if (LocationManager.currentLocation != Location.Dungeon)return;
+        if (!config.minibossHighlight)return;
+
+        List<Entity> shadowAssassin = new ArrayList<>(getEntityByName(CustomPlayerEntity.ShadowAssassin.getDisplayName()));
+        for (Entity sa : shadowAssassin){
+            renderHitbox(sa, camera, matrices, config.colorWithAlpha(config.shadowAssassinColor, 1.0f));
+        }
+
+        List<Entity> lostAdventurer = new ArrayList<>(getEntityByName(CustomPlayerEntity.LostAdventurer.getDisplayName()));
+        for (Entity la : lostAdventurer){
+            renderHitbox(la, camera, matrices, config.colorWithAlpha(config.lostAdventurerColor, 1.0f));
+        }
+
+        List<Entity> angryArcheologist = new ArrayList<>(getEntityByName(CustomPlayerEntity.AngryArcheologist.getDisplayName()));
+        for (Entity aa : angryArcheologist){
+            renderHitbox(aa, camera, matrices, config.colorWithAlpha(config.lostAdventurerColor, 1.0f));
+        }
+    }
+
+    /**
+     * handles the starred mob highlight
+     * @param camera
+     * @param matrices
+     */
+    private static void starredHighlight(Camera camera, MatrixStack matrices){
+        if (LocationManager.currentLocation != Location.Dungeon);
+        if (!config.starredHighlight)return;
+
+        List<Entity> starredMobs = new ArrayList<>(getEntityByArmorStandName("✯"));
+        for (Entity starred : starredMobs){
+            String name = starred.getName().getString().toLowerCase();
+
+            if (!(name.contains(CustomPlayerEntity.ShadowAssassin.getDisplayName().toLowerCase())
+                || name.contains(CustomPlayerEntity.LostAdventurer.getDisplayName().toLowerCase())
+                || name. contains(CustomPlayerEntity.AngryArcheologist.getDisplayName().toLowerCase())
+            )){
+                renderHitbox(starred, camera, matrices, config.colorWithAlpha(config.starredColor, 1.0f));
+            }
+        }
+    }
+
+    /**
+     * handles maniac highlight
+     * @param camera
+     * @param matrices
+     */
+    private static void maniacHighlight(Camera camera, MatrixStack matrices){
+        if (LocationManager.currentLocation != Location.Mineshaft)return;
+        if (!config.maniacHighlight)return;
+        List<Entity> maniacs = new ArrayList<>();
+        maniacs.addAll(getEntityByName(CustomPlayerEntity.GlaciteBowman.getDisplayName()));
+        maniacs.addAll(getEntityByName(CustomPlayerEntity.GlaciteMage.getDisplayName()));
+        maniacs.addAll(getEntityByName(CustomPlayerEntity.GlaciteCaver.getDisplayName()));
+        maniacs.addAll(getWolfEntities());
+
+        for (Entity maniac : maniacs){
+            renderHitbox(maniac, camera, matrices, config.colorWithAlpha(config.maniacColor, 1.0f));
+        }
+
+    }
+
+
+
+
 }
