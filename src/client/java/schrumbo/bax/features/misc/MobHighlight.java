@@ -70,7 +70,7 @@ public class MobHighlight {
 
         List<Entity> angryArcheologist = new ArrayList<>(getEntityByName(CustomPlayerEntity.AngryArcheologist.getDisplayName()));
         for (Entity aa : angryArcheologist){
-            renderHitbox(aa, camera, matrices, config.colorWithAlpha(config.lostAdventurerColor, 1.0f));
+            renderHitbox(aa, camera, matrices, config.colorWithAlpha(config.angryArcheologistColor, 1.0f));
         }
     }
 
