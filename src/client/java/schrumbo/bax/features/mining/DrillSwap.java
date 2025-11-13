@@ -20,7 +20,7 @@ public class DrillSwap {
 
     public static void register() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
-            if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows)return ActionResult.PASS;
+            if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows && currentLocation != Location.Mineshaft)return ActionResult.PASS;
             if (!config.drillSwap)return ActionResult.PASS;
 
             ItemStack stack = player.getStackInHand(hand);
@@ -33,7 +33,7 @@ public class DrillSwap {
         });
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
-            if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows)return ActionResult.PASS;
+            if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows && currentLocation != Location.Mineshaft)return ActionResult.PASS;
             if (!config.drillSwap)return ActionResult.PASS;
 
             ItemStack stack = player.getStackInHand(hand);

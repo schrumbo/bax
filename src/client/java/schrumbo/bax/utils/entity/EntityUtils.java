@@ -1,21 +1,19 @@
-package schrumbo.bax.utils.render;
+package schrumbo.bax.utils.entity;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import schrumbo.bax.Bax;
+import schrumbo.bax.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class HighlightUtils {
+public class EntityUtils {
 
     private static MinecraftClient client = MinecraftClient.getInstance();
 
@@ -66,13 +64,19 @@ public class HighlightUtils {
         return result;
     }
 
-    //TODO DOODDO
-    public static  List<Entity> getWolfEntities(){
-        List<Entity> result = new ArrayList<>();
-        if (client.world == null)return result;
-        for (Entity e : client.world.getEntities()){
-            if (e instanceof WolfEntity){
-                result.add(e);
+    /**
+     * gets all entities of a specific Type
+     * @param entityClass
+     * @return
+     * @param <T>
+     */
+    public static <T extends Entity> List<T> getEntitiesByType(Class<T> entityClass) {
+        List<T> result = new ArrayList<>();
+        if (client.world == null) return result;
+
+        for (Entity e : client.world.getEntities()) {
+            if (entityClass.isInstance(e)) {
+                result.add(entityClass.cast(e));
             }
         }
 

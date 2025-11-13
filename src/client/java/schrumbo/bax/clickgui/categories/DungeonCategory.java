@@ -69,6 +69,25 @@ public class DungeonCategory extends Category{
         widgets.add(starredDropdown);
         currentY += starredDropdown.getHeight() + WIDGET_SPACING;
 
+        WidgetDropdownWidget witherDropdown = new WidgetDropdownWidget.Builder()
+                .y(startY + currentY)
+                .width(width)
+                .label("Wither Highlight")
+                .addChild(ToggleWidget.builder()
+                        .width(width)
+                        .label("Enable")
+                        .value(config::getWitherHighlight, config::setWitherHighlight)
+                        .build())
+                .addChild(ColorPickerWidget.builder()
+                        .width(width)
+                        .label("Color")
+                        .color(() -> config.witherColor, config::setWitherColor)
+                        .build())
+                .build();
+        witherDropdown.setParentCategory(this);
+        widgets.add(witherDropdown);
+        currentY += minibossDropdown.getHeight() + WIDGET_SPACING;
+
         calculateWidgetsHeight();
         updateWidgetPositions(startX,startY);
     }

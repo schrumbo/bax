@@ -6,7 +6,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import schrumbo.bax.clickgui.ClickGuiScreen;
-import schrumbo.bax.utils.render.HighlightUtils;
+import schrumbo.bax.utils.entity.EntityUtils;
 
 
 /**
@@ -40,7 +40,7 @@ public class KeybindHandler {
                 client.setScreen(new ClickGuiScreen());
             }
             if (debugKey.wasPressed()){
-                HighlightUtils.debugEntities();
+                EntityUtils.debugEntities();
             }
         });
 

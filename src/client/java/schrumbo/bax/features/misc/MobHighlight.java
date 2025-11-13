@@ -5,7 +5,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import schrumbo.bax.Bax;
 import schrumbo.bax.utils.entity.CustomPlayerEntity;
+import schrumbo.bax.utils.entity.EntityUtils;
 import schrumbo.bax.utils.location.Location;
 import schrumbo.bax.utils.location.LocationManager;
 
@@ -15,7 +19,7 @@ import java.util.List;
 import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.BaxClient.highlightConfig;
 
-import static schrumbo.bax.utils.render.HighlightUtils.*;
+import static schrumbo.bax.utils.entity.EntityUtils.*;
 import static schrumbo.bax.utils.render.RenderUtils.renderHitbox;
 
 /**
@@ -46,6 +50,7 @@ public class MobHighlight {
         minisHighlight(camera, matrices);
         starredHighlight(camera, matrices);
         maniacHighlight(camera, matrices);
+        witherHighlight(camera, matrices);
     }
 
 
@@ -87,6 +92,7 @@ public class MobHighlight {
         for (Entity starred : starredMobs){
             String name = starred.getName().getString().toLowerCase();
 
+            //miniboss check
             if (!(name.contains(CustomPlayerEntity.ShadowAssassin.getDisplayName().toLowerCase())
                 || name.contains(CustomPlayerEntity.LostAdventurer.getDisplayName().toLowerCase())
                 || name. contains(CustomPlayerEntity.AngryArcheologist.getDisplayName().toLowerCase())
@@ -108,12 +114,29 @@ public class MobHighlight {
         maniacs.addAll(getEntityByName(CustomPlayerEntity.GlaciteBowman.getDisplayName()));
         maniacs.addAll(getEntityByName(CustomPlayerEntity.GlaciteMage.getDisplayName()));
         maniacs.addAll(getEntityByName(CustomPlayerEntity.GlaciteCaver.getDisplayName()));
-        maniacs.addAll(getWolfEntities());
+        maniacs.addAll(getEntitiesByType(WolfEntity.class));
 
         for (Entity maniac : maniacs){
             renderHitbox(maniac, camera, matrices, config.colorWithAlpha(config.maniacColor, 1.0f));
         }
+    }
 
+    /**
+     * handles Wither Highlight, used for F7/M7
+     * @param camera
+     * @param matrices
+     */
+    private static void witherHighlight(Camera camera, MatrixStack matrices){
+        if (LocationManager.currentLocation != Location.Dungeon)return;
+        if (!config.witherHighlight)return;
+        List<Entity> withers = new ArrayList<>(getEntitiesByType(WitherEntity.class));
+
+        for (Entity wither : withers){
+            if (wither.getHeight() >= 3.5f){
+                renderHitbox(wither, camera, matrices, config.colorWithAlpha(config.witherColor, 1.0f));
+            }
+
+        }
     }
 
 

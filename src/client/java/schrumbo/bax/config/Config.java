@@ -56,9 +56,6 @@ public class Config {
     }
 
     public int maniacColor =  0xFF1baff9;
-    public int getManiacColor(){
-        return maniacColor;
-    };
     public void setManiacColor(int color){
         maniacColor = color;
     }
@@ -92,6 +89,19 @@ public class Config {
         frozenAdventurerColor = color;
     }
 
+    //WITHER HIGHLIGHT
+    public boolean witherHighlight = false;
+    public boolean getWitherHighlight(){
+        return witherHighlight;
+    }
+    public void setWitherHighlight(boolean value){
+        witherHighlight = value;
+    }
+
+    public int witherColor = 0xFFfc2105;
+    public void setWitherColor(int color){
+        witherColor = color;
+    }
 
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();

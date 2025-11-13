@@ -146,6 +146,15 @@ public class ClickGuiScreen extends Screen {
 
         float scale = config.configScale;
         calcScale();
+        if(PANEL_WIDTH >= client.getWindow().getWidth() || PANEL_HEIGHT >= client.getWindow().getHeight()){
+            PANEL_WIDTH = client.getWindow().getWidth();
+            PANEL_HEIGHT = client.getWindow().getHeight();
+            panelX = 0;
+            panelY = 0;
+        }else{
+            PANEL_WIDTH = 1000;
+            PANEL_HEIGHT = 700;
+        }
 
         float scaledMouseX = (float) mouseX / scale;
         float scaledMouseY = (float) mouseY / scale;
@@ -496,8 +505,8 @@ public class ClickGuiScreen extends Screen {
         if (selectedCategory != null) {
             for (Widget widget : selectedCategory.widgets) {
 
-                        boolean handled = widget.mouseDragged(scaledMouseX, scaledMouseY, button, scaledOffsetX, scaledOffsetY);
-                        if (handled) return true;
+                boolean handled = widget.mouseDragged(scaledMouseX, scaledMouseY, button, scaledOffsetX, scaledOffsetY);
+                if (handled) return true;
 
             }
         }
@@ -528,8 +537,8 @@ public class ClickGuiScreen extends Screen {
 
         if (selectedCategory != null) {
             for (Widget widget : selectedCategory.widgets) {
-                        boolean handled = widget.mouseReleased(scaledMouseX, scaledMouseY, button);
-                        if (handled) return true;
+                boolean handled = widget.mouseReleased(scaledMouseX, scaledMouseY, button);
+                if (handled) return true;
             }
         }
 
