@@ -61,9 +61,10 @@ public class ClickGuiScreen extends Screen {
 
         categories.clear();
         categories.add(new GeneralCategory());
-        categories.add(new MiningCategory());
         categories.add(new HighlightCategory());
+        categories.add(new MiningCategory());
         categories.add(new DungeonCategory());
+        categories.add(new MiscCategory());
         if (config.selectedCategory != null){
             for (Category c : categories){
                 if (Objects.equals(c.getName(), config.selectedCategory)){
