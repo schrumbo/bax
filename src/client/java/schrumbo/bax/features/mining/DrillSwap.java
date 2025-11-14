@@ -7,7 +7,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import schrumbo.bax.Bax;
+import schrumbo.bax.utils.Utils;
 import schrumbo.bax.utils.location.Location;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.utils.location.LocationManager.currentLocation;
@@ -58,9 +62,10 @@ public class DrillSwap {
      * switches to the drill slot after a short delay to avoid not clicking the royal pigeon
      */
     private static void scheduleSlotSwitch() {
+
         new Thread(() -> {
             try {
-                Thread.sleep(50);
+                Thread.sleep(Utils.randomInt(50, 80));
                 if (mc.player != null) {
                     int drillSlot = getDrillSlot();
                     if (drillSlot != -1) {
