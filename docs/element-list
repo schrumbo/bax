@@ -1,0 +1,14 @@
+schrumbo.bax
+schrumbo.bax.clickgui
+schrumbo.bax.clickgui.categories
+schrumbo.bax.clickgui.widgets
+schrumbo.bax.config
+schrumbo.bax.features.dungeons
+schrumbo.bax.features.fishing
+schrumbo.bax.features.mining
+schrumbo.bax.features.misc
+schrumbo.bax.mixin.client
+schrumbo.bax.utils
+schrumbo.bax.utils.entity
+schrumbo.bax.utils.location
+schrumbo.bax.utils.render

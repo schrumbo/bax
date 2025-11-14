@@ -123,3 +123,8 @@ task generateAllDocs(type: Javadoc) {
 		source.files.each { println "  - ${it.name}" }
 	}
 }
+task copyJavadocToGithubPages(type: Copy) {
+	dependsOn javadoc
+	from javadoc.destinationDir
+	into file("${rootProject.projectDir}/docs")
+}
