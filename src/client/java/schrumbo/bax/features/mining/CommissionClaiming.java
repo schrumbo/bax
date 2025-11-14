@@ -33,7 +33,7 @@ public class CommissionClaiming {
      */
     public static boolean handleClick(HandledScreen<?> screen, double mouseX, double mouseY, int button) {
         if (!config.easyCommissions)return false;
-        if (LocationManager.currentLocation != Location.DwarvenMines && LocationManager.currentLocation != Location.CrystalHollows)return false;
+        if (LocationManager.currentLocation != Location.DwarvenMines && LocationManager.currentLocation != Location.CrystalHollows && LocationManager.currentLocation != Location.Mineshaft)return false;
         if (button != 0 && button != 1) return false;
         if (!isInGui(screen, "Commissions")) return false;
 
