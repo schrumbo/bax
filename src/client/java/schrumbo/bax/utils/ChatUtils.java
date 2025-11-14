@@ -15,4 +15,13 @@ public class ChatUtils {
         client.player.sendMessage( PREFIX.copy().append(Text.literal("§f" + message)), false);
     }
 
+    /**
+     * sends command
+     * @param command
+     */
+    public static void sendCommand(String command){
+        if(client.player == null)return;
+        client.player.networkHandler.sendChatCommand(command);
+    }
+
 }

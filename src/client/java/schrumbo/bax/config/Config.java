@@ -132,22 +132,29 @@ public class Config {
     }
 
 
+    //FISHING STUFF
+    public boolean autoReelIn = false;
+    public boolean getAutoReelIn(){
+        return autoReelIn;
+    }
+    public void setAutoReelIn(boolean value){
+        autoReelIn = value;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public boolean petSwap = false;
+    public boolean getPetSwap(){
+        return petSwap;
+    }
+    public void setPetSwap(boolean value){
+        petSwap = value;
+    }
+    public String petUUID = "";
+    public String getPetUUID(){
+        return petUUID;
+    }
+    public void setPetUUID(String UUID){
+        petUUID = UUID;
+    }
 
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();

@@ -5,8 +5,14 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.server.command.CommandManager;
+import schrumbo.bax.config.ConfigManager;
 import schrumbo.bax.utils.ChatUtils;
+import schrumbo.bax.utils.ItemUtils;
 
+import java.util.Objects;
+
+import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.BaxClient.highlightConfig;
 
 public class Commands {
@@ -68,6 +74,15 @@ public class Commands {
                                     return 1;
                                 })
                         )
+                )
+                .then(ClientCommandManager.literal("petswap")
+                        .executes(commandContext -> {
+                            config.setPetUUID(ItemUtils.getItemUUID(Objects.requireNonNull(ItemUtils.getHeldItem())));
+                            ConfigManager.save();
+                            ChatUtils.modMessage("set pet: " + config.getPetUUID());
+                            return 1;
+                        })
+
                 )
         );
     }

@@ -24,6 +24,11 @@
 - **Lazy Mineshaft Enter** - same as with Commissions
 - **Maniac highlighting** - highlights the maniacs inside the Mineshafts
 
+### Fishing
+
+- **Semi auto fishing** - automatically reels in your fishing rod if a fish bites
+- **Pet Swap** - swaps to a predefined pet after casting your rod 
+
 
 ### Misc
 - **Pet Notification** - sends a notification if a pet reaches its max level
@@ -40,7 +45,8 @@
 - `/bax highlight add <name>` - Add entity name to list
 - `/bax highlight remove <name>` - Remove entity name from list
 - `/bax highlight list` - Show all highlighted entity names
-- `/bax highlight clear` - Clear all highlights
+- `/bax highlight clear` - Clear all highlight
+- `/bax petswap` - use whilst holding a pet to set the pet for petswap
 
 ---
 

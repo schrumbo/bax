@@ -3,6 +3,7 @@ package schrumbo.bax.utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
@@ -19,6 +20,27 @@ public class InventoryUtils {
         client.interactionManager.clickSlot(
                 client.player.currentScreenHandler.syncId,
                 slot.id,
+                0,
+                SlotActionType.PICKUP,
+                client.player
+        );
+    }
+
+    /**
+     * clicks slot at an index
+     * @param slotIndex
+     */
+    public static void clickSlotAt(int slotIndex) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null) return;
+
+        ScreenHandler handler = client.player.currentScreenHandler;
+        if (handler == null) return;
+
+        assert client.interactionManager != null;
+        client.interactionManager.clickSlot(
+                handler.syncId,
+                slotIndex,
                 0,
                 SlotActionType.PICKUP,
                 client.player
@@ -90,6 +112,21 @@ public class InventoryUtils {
      */
     public static boolean isInGui(HandledScreen<?> screen, String string) {
         return screen.getTitle().getString().contains(string);
+    }
+
+    public static boolean isInGui() {
+        return isInGui(null);
+    }
+
+    public static boolean isInGui(String string) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.currentScreen == null) return false;
+
+        if (client.currentScreen instanceof HandledScreen<?> handledScreen) {
+            return handledScreen.getTitle().getString().contains(string);
+        }
+
+        return false;
     }
 
 }

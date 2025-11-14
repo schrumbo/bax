@@ -120,6 +120,23 @@ public class EntityUtils {
         }
     }
 
+    /**
+     * return exactly one armorstand with a given name
+     * @param name wanted name
+     * @return found armorstand - if couldnt find matching entity return null
+     */
+    public static Entity getArmorStand(String name){
+        if(client.world == null) return null;
+
+        for (Entity entity : client.world.getEntities()) {
+            if (!(entity instanceof ArmorStandEntity))continue;
+            if(entity.getName().getString().toLowerCase().contains(name.toLowerCase())){
+                return entity;
+            }
+        }
+        return null;
+    }
+
     private static void entityInformation(Entity entity){
         String entityName = entity.getName().getString();
         Bax.LOGGER.info("__________________________________________________");

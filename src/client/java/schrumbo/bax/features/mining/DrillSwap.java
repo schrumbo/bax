@@ -3,16 +3,21 @@ package schrumbo.bax.features.mining;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import schrumbo.bax.Bax;
+import schrumbo.bax.utils.ItemUtils;
+import schrumbo.bax.utils.StringUtils;
 import schrumbo.bax.utils.Utils;
 import schrumbo.bax.utils.location.Location;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static schrumbo.bax.BaxClient.client;
 import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.utils.location.LocationManager.currentLocation;
 
@@ -33,7 +38,7 @@ public class DrillSwap {
             ItemStack stack = player.getStackInHand(hand);
 
             if (stack.getName().getString().contains("Royal Pigeon")) {
-                scheduleSlotSwitch();
+                switchToDrill();
             }
 
             return ActionResult.PASS;
@@ -45,11 +50,11 @@ public class DrillSwap {
             ItemStack stack = player.getStackInHand(hand);
 
             if (config.pigeonDrillSwap && stack.getName().getString().contains("Royal Pigeon")) {
-                scheduleSlotSwitch();
+                switchToDrill();
             }
 
             if (config.rodDrillSwap && stack.getName().getString().contains("Rod")){
-                scheduleSlotSwitch();
+                switchToDrill();
             }
 
             return ActionResult.PASS;
@@ -57,53 +62,50 @@ public class DrillSwap {
 
     }
 
-
     /**
      * switches to the drill slot after a short delay to avoid not clicking the royal pigeon
      */
-    private static void scheduleSlotSwitch() {
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(Utils.randomInt(50, 80));
-                if (mc.player != null) {
-                    int drillSlot = getDrillSlot();
-                    if (drillSlot != -1) {
-                        mc.execute(() -> mc.player.getInventory().setSelectedSlot(drillSlot));
-                    }
-                }
-            } catch (InterruptedException ignored) {}
-        }).start();
+    private static void switchToDrill() {
+       Utils.runAfterDelay(() -> ItemUtils.switchToSlot(findBestDrill()), 70);
     }
+
 
     /**
-     * gets the drill slot (will always take a refined drill if possible)
-     * @return
+     * finds the best drill in the hotbar (best drill -> item with the most mining wisdomString)
+     * @return slot
      */
-    private static int getDrillSlot() {
-        assert mc.player != null;
-        PlayerInventory inv = mc.player.getInventory();
-        //if no drill in inventory
-        int fallbackDrill = mc.player.getInventory().getSelectedSlot();
+    private static int findBestDrill(){
+        assert client.player != null;
+        Pattern pattern = Pattern.compile("Mining Wisdom: \\+(\\d+)");
+        int bestWisdom = 0;
+        int bestSlot = -1;
 
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = inv.getStack(i);
-            if (stack.isEmpty()) continue;
+        for (int i = 0; i < 9; i++){
+            ItemStack currentItem = client.player.getInventory().getStack(i);
 
-            String name = stack.getName().getString();
-            if (!name.contains("Drill")) continue;
+            LoreComponent lore = currentItem.get(DataComponentTypes.LORE);
+            if (lore == null) continue;
 
-            if (name.contains("Refined")) {
-                return i;
+            for (Text line : lore.lines()) {
+                String cleanLine = StringUtils.noColorCodes(line.getString());
+
+                if (cleanLine.toLowerCase().contains("mining wisdom")) {
+                    Matcher matcher = pattern.matcher(cleanLine);
+
+                    if (matcher.find()){
+                        int currentWisdom = Integer.parseInt(matcher.group(1));
+                        Bax.LOGGER.info("[Drill-Swap] Found Tool in slot {} with {} wisdom.", i, currentWisdom);
+
+                        if (currentWisdom > bestWisdom){
+                            bestWisdom = currentWisdom;
+                            bestSlot = i;
+                        }
+                    }
+                    break;
+                }
             }
-
-            if (fallbackDrill == mc.player.getInventory().getSelectedSlot()) {
-                fallbackDrill = i;
-            }
-            Bax.LOGGER.info("Drill:" + fallbackDrill);
-
         }
-
-        return fallbackDrill;
+        return bestSlot;
     }
+
 }

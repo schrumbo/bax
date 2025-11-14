@@ -1,7 +1,5 @@
 package schrumbo.bax.utils;
 
-import net.minecraft.client.sound.Sound;
-import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -42,6 +40,22 @@ public class Utils {
             client.inGameHud.setSubtitle(Text.literal(subtitle));
         }
         client.inGameHud.setTitleTicks(10, stay, 10);
-
     }
+
+    /**
+     * executes a runnable after a given delay
+     * @param ms
+     */
+    public static void runAfterDelay(Runnable action, int ms){
+        int minDelay = ms - ms / 5;
+        int maxDelay = ms + ms / 5;
+        int rndDelay = randomInt(minDelay, maxDelay);
+        new Thread(() -> {
+            try {
+                Thread.sleep(rndDelay);
+                client.execute(action);
+            } catch (InterruptedException ignored){}
+        }).start();
+    }
+
 }
