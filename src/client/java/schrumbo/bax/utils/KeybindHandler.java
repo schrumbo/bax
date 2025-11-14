@@ -40,7 +40,7 @@ public class KeybindHandler {
                 client.setScreen(new ClickGuiScreen());
             }
             if (debugKey.wasPressed()){
-                EntityUtils.debugEntities();
+                EntityUtils.debugWitherEntities();
             }
         });
 

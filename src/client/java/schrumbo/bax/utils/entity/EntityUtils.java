@@ -2,20 +2,20 @@ package schrumbo.bax.utils.entity;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 import schrumbo.bax.Bax;
-import schrumbo.bax.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityUtils {
 
-    private static MinecraftClient client = MinecraftClient.getInstance();
+    public static final MinecraftClient client = MinecraftClient.getInstance();
 
     /**
      * gets alist of all entities belonging to a specified name
@@ -87,7 +87,7 @@ public class EntityUtils {
     /**
      * prints out every player entity
      */
-    public static void debugEntities(){
+    public static void debugPlayerEntities(){
         if (client.world == null) return;
         for (Entity entity : client.world.getEntities()) {
 
@@ -99,13 +99,40 @@ public class EntityUtils {
             if (entityCustomName != null)continue;
 
             if (!(entity instanceof PlayerEntity))continue;
-
-            Bax.LOGGER.info("__________________________________________________");
-            Bax.LOGGER.info(String.valueOf( entity.getType()));
-            Bax.LOGGER.info("EntityName: {}", entityName);
-            Bax.LOGGER.info(String.valueOf(entity));
-            Bax.LOGGER.info("__________________________________________________");
+            entityInformation(entity);
         }
+    }
+
+    public static void debugWitherEntities(){
+        if (client.world == null) return;
+        for (Entity entity : client.world.getEntities()) {
+
+            if (entity.getName().equals(Text.literal("schrumbo"))) continue;
+            String entityName = entity.getName().getString();
+            if (entityName == null)continue;
+
+            Text entityCustomName = entity.getCustomName();
+            //if (entityCustomName != null)continue;
+
+            if (!(entity instanceof WitherEntity))continue;
+
+            entityInformation(entity);
+        }
+    }
+
+    private static void entityInformation(Entity entity){
+        String entityName = entity.getName().getString();
+        Bax.LOGGER.info("__________________________________________________");
+        Bax.LOGGER.info(String.valueOf( entity.getType()));
+        Bax.LOGGER.info("Dimensions: {}", entity.getDimensions(entity.getPose()));
+        Bax.LOGGER.info("EntityName: {}", entityName);
+        Bax.LOGGER.info("Entity Custom Name: {}", entity.getCustomName());
+        Bax.LOGGER.info("Velocity: {}", entity.getVelocity());
+        for (String commandTag : entity.getCommandTags()){
+            Bax.LOGGER.info("Command Tag: {}", commandTag);
+        }
+        Bax.LOGGER.info(String.valueOf(entity));
+        Bax.LOGGER.info("__________________________________________________");
     }
 
 }

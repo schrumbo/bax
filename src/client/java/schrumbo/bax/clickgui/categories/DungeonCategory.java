@@ -21,12 +21,12 @@ public class DungeonCategory extends Category{
                 .width(width)
                 .label("Miniboss Highlight")
                 .addChild(ToggleWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Enable")
                         .value(config::getMinibossHighlight, config::setMinibossHighlight)
                         .build())
                 .addChild(ColorPickerWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Shadow Assassin")
                         .color(() -> config.shadowAssassinColor, config::setShadowAssassinColor)
                         .build())
@@ -36,16 +36,17 @@ public class DungeonCategory extends Category{
                         .color(() -> config.lostAdventurerColor, config::setLostAdventurerColor)
                         .build())
                 .addChild(ColorPickerWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Angry Archeologist")
                         .color(() -> config.angryArcheologistColor, config::setAngryArcheologistColor)
                         .build())
                 .addChild(ColorPickerWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Frozen Adventurer")
                         .color(() -> config.frozenAdventurerColor, config::setFrozenAdventurerColor)
                         .build())
                 .build();
+
         minibossDropdown.setParentCategory(this);
         widgets.add(minibossDropdown);
         currentY += minibossDropdown.getHeight() + WIDGET_SPACING;
@@ -55,16 +56,17 @@ public class DungeonCategory extends Category{
                 .width(width)
                 .label("Starred Mob Highlight")
                 .addChild(ToggleWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Enable")
                         .value(config::getStarredHighlight, config::setStarredHighlight)
                         .build())
                 .addChild(ColorPickerWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Color")
                         .color(() -> config.starredColor, config::setStarredColor)
                         .build())
                 .build();
+
         starredDropdown.setParentCategory(this);
         widgets.add(starredDropdown);
         currentY += starredDropdown.getHeight() + WIDGET_SPACING;
@@ -74,19 +76,31 @@ public class DungeonCategory extends Category{
                 .width(width)
                 .label("Wither Highlight")
                 .addChild(ToggleWidget.builder()
-                        .width(width)
+                        .width(width - 5)
                         .label("Enable")
                         .value(config::getWitherHighlight, config::setWitherHighlight)
                         .build())
                 .addChild(ColorPickerWidget.builder()
-                        .width(width)
+                        .width(width - 10)
                         .label("Color")
                         .color(() -> config.witherColor, config::setWitherColor)
                         .build())
                 .build();
+
         witherDropdown.setParentCategory(this);
         widgets.add(witherDropdown);
         currentY += minibossDropdown.getHeight() + WIDGET_SPACING;
+
+
+        ToggleWidget closeSecrets = ToggleWidget.builder()
+                .y(currentY)
+                .width(width)
+                .label("Close Secrets")
+                .value(config::getCloseSecrets, config::setCloseSecrets)
+                .build();
+
+        widgets.add(closeSecrets);
+        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
 
         calculateWidgetsHeight();
         updateWidgetPositions(startX,startY);

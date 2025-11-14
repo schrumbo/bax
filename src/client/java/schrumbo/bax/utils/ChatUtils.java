@@ -8,7 +8,7 @@ import static schrumbo.bax.BaxClient.config;
 public class ChatUtils {
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
-    private static final Text PREFIX = Text.literal("§8[").append(Text.literal("Bax").styled(style -> style.withColor(config.guicolors.accent))).append(Text.literal("§8] "));
+    private static final Text PREFIX = Text.literal("§8[").append(Text.literal("Bax").styled(style -> style.withColor(0xFF87ceeb))).append(Text.literal("§8] "));
 
     public static void modMessage(String message){
         if(client.player == null)return;

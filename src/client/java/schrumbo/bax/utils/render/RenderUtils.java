@@ -43,6 +43,29 @@ public class RenderUtils {
     }
 
     /**
+     * renders a box
+     * @param box
+     * @param camera
+     * @param matrices
+     * @param color
+     */
+    public static void renderBox(Box box, Camera camera, MatrixStack matrices, int color) {
+        Vec3d cameraPos = camera.getPos();
+        preRender();
+
+        VertexConsumerProvider.Immediate vcp = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
+
+        RenderLayer layer = RenderLayer.getLines();
+        VertexConsumer buffer = vcp.getBuffer(layer);
+
+        drawOutlinedBox(matrices, buffer, box.offset(-cameraPos.x, -cameraPos.y, -cameraPos.z), color);
+
+        vcp.draw(layer);
+
+        postRender();
+    }
+
+    /**
      * disables DepthTest before rendering
      */
     public static void preRender(){

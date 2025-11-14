@@ -67,7 +67,7 @@ public class InventoryUtils {
      */
     public static void closeGui() {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player != null) {
+        if (client.player != null && client.currentScreen != null) {
             client.player.closeHandledScreen();
         }
     }

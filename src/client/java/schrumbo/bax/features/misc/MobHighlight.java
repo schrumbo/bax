@@ -7,9 +7,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Box;
 import schrumbo.bax.Bax;
 import schrumbo.bax.utils.entity.CustomPlayerEntity;
-import schrumbo.bax.utils.entity.EntityUtils;
 import schrumbo.bax.utils.location.Location;
 import schrumbo.bax.utils.location.LocationManager;
 
@@ -20,6 +21,7 @@ import static schrumbo.bax.BaxClient.config;
 import static schrumbo.bax.BaxClient.highlightConfig;
 
 import static schrumbo.bax.utils.entity.EntityUtils.*;
+import static schrumbo.bax.utils.render.RenderUtils.renderBox;
 import static schrumbo.bax.utils.render.RenderUtils.renderHitbox;
 
 /**
@@ -51,6 +53,7 @@ public class MobHighlight {
         starredHighlight(camera, matrices);
         maniacHighlight(camera, matrices);
         witherHighlight(camera, matrices);
+        customHighlight(camera, matrices);
     }
 
 
@@ -132,10 +135,27 @@ public class MobHighlight {
         List<Entity> withers = new ArrayList<>(getEntitiesByType(WitherEntity.class));
 
         for (Entity wither : withers){
-            if (wither.getHeight() >= 3.5f){
-                renderHitbox(wither, camera, matrices, config.colorWithAlpha(config.witherColor, 1.0f));
-            }
+            //TODO find real goldorY value
+            float goldorY = 0;
 
+            if (wither.getY() == goldorY){
+                Box witherBox = wither.getBoundingBox().expand(1.5, 0, 1);
+                renderBox(witherBox, camera, matrices, config.colorWithAlpha(config.witherColor, 1.0f));
+            }
+        }
+    }
+
+    private static void customHighlight(Camera camera, MatrixStack matrices){
+        if(!highlightConfig.getEnabled())return;
+
+        List<Entity> customMobs = new ArrayList<>();
+
+        for (String mobName : highlightConfig.getHighlightList()){
+            customMobs.addAll(getEntityByArmorStandName(mobName));
+        }
+
+        for (Entity mob : customMobs){
+            renderHitbox(mob, camera, matrices, config.colorWithAlpha(highlightConfig.highlightColor, 1.0f));
         }
     }
 

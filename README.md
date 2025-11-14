@@ -10,13 +10,23 @@
 ## Features
 
 ### Visual
-- **Entity Highlighting** - Highlight all entities with a specific name, with and without depth check
+- **Entity Highlight** - Highlight all entities with a specific name, with and without depth check
 
+### Dungeons 
+- **Starred Mob highlight**
+- **Miniboss highlight**
+- **WIP - Wither highlight**
 
 ### Mining 
-- **Drill Swap** - automatically swaps to your drill after opening the Royal Pigeon
+- **Royal Pigeon Drill Swap** - automatically swaps to your drill after opening the Royal Pigeon
+- **Rod Drill Swap** - swaps to the drill after using the rod to trigger the bal autopetrule
 - **Lazy Commission Claiming** - lets you click anywhere on your screen to claim a commission
 - **Lazy Mineshaft Enter** - same as with Commissions
+- **Maniac highlighting** - highlights the maniacs inside the Mineshafts
+
+
+### Misc
+- **Pet Notification** - sends a notification if a pet reaches its max level
 
 ---
 
@@ -31,8 +41,6 @@
 - `/bax highlight remove <name>` - Remove entity name from list
 - `/bax highlight list` - Show all highlighted entity names
 - `/bax highlight clear` - Clear all highlights
-- `/bax highlight add starred` - adds starred mobs to ist
-- `/bax highlight remove starred` - remove starred mobs from list
 
 ---
 

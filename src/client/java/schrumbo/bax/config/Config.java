@@ -11,24 +11,33 @@ public class Config {
         easyCommissions = value;
     }
 
-    @SerializedName("selectedCategory")
-    public String selectedCategory = null;
-
-
-    public boolean drillSwap = false;
-    public boolean getDrillSwap(){
-        return drillSwap;
-    }
-    public void setDrillSwap(boolean value){
-        drillSwap = value;
-    }
-
     public boolean easyShaftEnter = false;
     public boolean getEasyShaftEnter(){
         return easyShaftEnter;
     }
     public void setEasyShaftEnter(boolean value){
         easyShaftEnter = value;
+    }
+
+    @SerializedName("selectedCategory")
+    public String selectedCategory = null;
+
+
+    //DRILL SWAP
+    public boolean pigeonDrillSwap = false;
+    public boolean getPigeonDrillSwap(){
+        return pigeonDrillSwap;
+    }
+    public void setPigeonDrillSwap(boolean value){
+        pigeonDrillSwap = value;
+    }
+
+    public boolean rodDrillSwap = false;
+    public boolean getRodDrillSwap(){
+        return rodDrillSwap;
+    }
+    public void setRodDrillSwap(boolean value){
+        rodDrillSwap = value;
     }
 
     //STARRED HIGHLIGHT
@@ -44,7 +53,6 @@ public class Config {
     public void setStarredColor(int color){
         starredColor = color;
     }
-
 
     //MANIAC HIGHLIGHT
     public boolean maniacHighlight = false;
@@ -102,6 +110,44 @@ public class Config {
     public void setWitherColor(int color){
         witherColor = color;
     }
+
+
+    //DUNGEON STUFF
+    public boolean closeSecrets = false;
+    public boolean getCloseSecrets(){
+        return closeSecrets;
+    }
+    public void setCloseSecrets(boolean value){
+        closeSecrets = value;
+    }
+
+
+    //MISC STUFF
+    public boolean petNotification = true;
+    public boolean getPetNotification(){
+        return petNotification;
+    }
+    public void setPetNotification(boolean value){
+        petNotification = value;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();

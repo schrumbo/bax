@@ -28,16 +28,6 @@ public class MiningCategory extends Category {
 
         currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
 
-        ToggleWidget drillSwap = ToggleWidget.builder()
-                .y(currentY)
-                .width(width)
-                .label("Drill Swap")
-                .value(config::getDrillSwap, config::setDrillSwap)
-                .build();
-        widgets.add(drillSwap);
-
-        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
-
         ToggleWidget lazyShaftEnter = ToggleWidget.builder()
                 .y(currentY)
                 .width(width)
@@ -46,17 +36,49 @@ public class MiningCategory extends Category {
                 .build();
         widgets.add(lazyShaftEnter);
 
-        ToggleWidget maniacHighlight = ToggleWidget.builder()
+        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
+
+        //DRILL SWAP
+        ToggleWidget pigeonDrillSwap = ToggleWidget.builder()
+                .width(width - 10)
+                .label("Pigeon Drill Swap")
+                .value(config::getPigeonDrillSwap, config::setPigeonDrillSwap)
+                .build();
+
+        ToggleWidget rodDrillSwap = ToggleWidget.builder()
+                .width(width - 10)
+                .label("Rod Drill Swap")
+                .value(config::getRodDrillSwap, config::setRodDrillSwap)
+                .build();
+
+
+
+        WidgetDropdownWidget drillSwapDropdown = new WidgetDropdownWidget.Builder()
+                .y(startY + currentY)
                 .width(width)
+                .label("Drill Swap")
+                .addChild(pigeonDrillSwap)
+                .addChild(rodDrillSwap)
+                .build();
+
+        drillSwapDropdown.setParentCategory(this);
+        widgets.add(drillSwapDropdown);
+        currentY += drillSwapDropdown.getHeight() + WIDGET_SPACING;
+
+        //MANIAC HIGHLIGHT
+        ToggleWidget maniacHighlight = ToggleWidget.builder()
+                .width(width - 10)
                 .label("Maniac ESP")
                 .value(config::getManiacHighlight, config::setManiacHighlight)
                 .build();
 
         ColorPickerWidget maniacColor = ColorPickerWidget.builder()
-                .width(width)
+                .width(width - 10)
                 .label("Maniac Highlight Color")
                 .color(() -> config.maniacColor, config::setManiacColor)
                 .build();
+
+
 
         WidgetDropdownWidget maniacHighlightDropdown = new WidgetDropdownWidget.Builder()
                 .y(startY + currentY)
@@ -65,6 +87,7 @@ public class MiningCategory extends Category {
                 .addChild(maniacHighlight)
                 .addChild(maniacColor)
                 .build();
+
         maniacHighlightDropdown.setParentCategory(this);
         widgets.add(maniacHighlightDropdown);
         currentY += maniacHighlightDropdown.getHeight() + WIDGET_SPACING;

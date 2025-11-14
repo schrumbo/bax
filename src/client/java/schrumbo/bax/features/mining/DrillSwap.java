@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import schrumbo.bax.Bax;
 import schrumbo.bax.utils.location.Location;
 
 import static schrumbo.bax.BaxClient.config;
@@ -17,11 +18,13 @@ import static schrumbo.bax.utils.location.LocationManager.currentLocation;
 public class DrillSwap {
     private static final MinecraftClient mc = MinecraftClient.getInstance();
 
-
+    /**
+     * registers events for drill swapping. UseBlockCallback is needed because the player places the pigeon if close to a block
+     */
     public static void register() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows && currentLocation != Location.Mineshaft)return ActionResult.PASS;
-            if (!config.drillSwap)return ActionResult.PASS;
+            if (!config.pigeonDrillSwap)return ActionResult.PASS;
 
             ItemStack stack = player.getStackInHand(hand);
 
@@ -34,11 +37,14 @@ public class DrillSwap {
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
             if (currentLocation != Location.DwarvenMines && currentLocation != Location.CrystalHollows && currentLocation != Location.Mineshaft)return ActionResult.PASS;
-            if (!config.drillSwap)return ActionResult.PASS;
 
             ItemStack stack = player.getStackInHand(hand);
 
-            if (stack.getName().getString().contains("Royal Pigeon")) {
+            if (config.pigeonDrillSwap && stack.getName().getString().contains("Royal Pigeon")) {
+                scheduleSlotSwitch();
+            }
+
+            if (config.rodDrillSwap && stack.getName().getString().contains("Rod")){
                 scheduleSlotSwitch();
             }
 
@@ -72,7 +78,8 @@ public class DrillSwap {
     private static int getDrillSlot() {
         assert mc.player != null;
         PlayerInventory inv = mc.player.getInventory();
-        int fallbackDrill = -1;
+        //if no drill in inventory
+        int fallbackDrill = mc.player.getInventory().getSelectedSlot();
 
         for (int i = 0; i < 9; i++) {
             ItemStack stack = inv.getStack(i);
@@ -85,9 +92,11 @@ public class DrillSwap {
                 return i;
             }
 
-            if (fallbackDrill == -1) {
+            if (fallbackDrill == mc.player.getInventory().getSelectedSlot()) {
                 fallbackDrill = i;
             }
+            Bax.LOGGER.info("Drill:" + fallbackDrill);
+
         }
 
         return fallbackDrill;

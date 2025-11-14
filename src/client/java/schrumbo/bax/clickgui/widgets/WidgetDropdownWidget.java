@@ -61,7 +61,7 @@ public class WidgetDropdownWidget extends Widget {
         if (expanded) {
             int childY = y + collapsedHeight + WIDGET_SPACING;
             for (Widget child : children) {
-                child.setPosition(x, childY);
+                child.setPosition(x + 10, childY);
                 child.render(context, mouseX, mouseY, delta);
                 childY += child.getHeight() + WIDGET_SPACING;
             }
