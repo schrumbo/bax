@@ -5,12 +5,11 @@ import net.minecraft.client.MinecraftClient;
 import schrumbo.bax.config.Config;
 import schrumbo.bax.config.ConfigManager;
 import schrumbo.bax.config.HighlightConfig;
-import schrumbo.bax.features.fishing.AutoReel;
 import schrumbo.bax.features.fishing.PetSwap;
 import schrumbo.bax.features.mining.DrillSwap;
-import schrumbo.bax.features.misc.Commands;
-import schrumbo.bax.features.misc.MobHighlight;
-import schrumbo.bax.features.misc.PetNotification;
+import schrumbo.bax.features.chat.Commands;
+import schrumbo.bax.features.render.MobHighlight;
+import schrumbo.bax.features.chat.PetNotification;
 import schrumbo.bax.utils.KeybindHandler;
 import schrumbo.bax.utils.location.LocationManager;
 
@@ -29,8 +28,7 @@ public class BaxClient implements ClientModInitializer {
 		config = ConfigManager.load();
 		highlightConfig = ConfigManager.loadHighlightConfig();
 
-		//macros to false on start
-		config.setAutoReelIn(false);
+
 
 		//FEATURE REGISTRATION HERE
 		DrillSwap.register();
@@ -38,8 +36,8 @@ public class BaxClient implements ClientModInitializer {
 		LocationManager.register();
 		KeybindHandler.register();
 		PetNotification.register();
-		AutoReel.register();
-		PetSwap.register();
 		Commands.register();
+
+		//HudRenderTesting.register();
 	}
 }

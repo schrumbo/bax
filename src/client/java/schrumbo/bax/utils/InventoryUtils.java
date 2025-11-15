@@ -7,6 +7,8 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
+import java.util.List;
+
 public class InventoryUtils {
 
     /**
@@ -118,6 +120,11 @@ public class InventoryUtils {
         return isInGui(null);
     }
 
+    /**
+     * checks if the player is currently in a Screen with a custom title
+     * @param string the title
+     * @return true if the player is in a gui with that title
+     */
     public static boolean isInGui(String string) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.currentScreen == null) return false;
@@ -129,4 +136,42 @@ public class InventoryUtils {
         return false;
     }
 
+    /**
+     * checks if a player is in a special armor.
+     * @param type the armor type {@link ArmorType}
+     * @return true if the player is currently wearing an armor of the given type
+     */
+    public static boolean isInArmor(ArmorType type){
+        List<ItemStack> armor = ItemUtils.getPlayerArmor();
+        if (armor.isEmpty())return false;
+
+        for (ItemStack item : armor){
+            if (ItemUtils.loreContains(item, type.uniqueStat)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * list of all skill related armor sets with one of their unique stats
+     * TODO expand this list in the future
+     */
+    public enum ArmorType{
+        MINING("Mining Fortune"),
+        FARMING("Farming Fortune"),
+        FISHING("Sea Creature Chance"),
+        FORAGING("Foraging Fortune");
+
+        private final String uniqueStat;
+
+        ArmorType(String uniqueStat){
+            this.uniqueStat = uniqueStat;
+        }
+
+        public String getUniqueStat(){
+            return uniqueStat;
+        }
+    }
 }

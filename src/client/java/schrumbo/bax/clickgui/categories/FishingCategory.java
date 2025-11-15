@@ -13,16 +13,6 @@ public class FishingCategory extends Category {
     public void initializeWidgets(int startX, int startY, int width) {
         currentY = startY;
 
-        ToggleWidget autoFish = ToggleWidget.builder()
-                .y(currentY)
-                .width(width)
-                .label("Semi Auto Fishing")
-                .value(config::getAutoReelIn, config::setAutoReelIn)
-                .build();
-        widgets.add(autoFish);
-
-        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
-
         ToggleWidget petSwap = ToggleWidget.builder()
                 .y(currentY)
                 .width(width)

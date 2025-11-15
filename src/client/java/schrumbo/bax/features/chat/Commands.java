@@ -1,11 +1,11 @@
-package schrumbo.bax.features.misc;
+package schrumbo.bax.features.chat;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.server.command.CommandManager;
+import schrumbo.bax.config.Config;
 import schrumbo.bax.config.ConfigManager;
 import schrumbo.bax.utils.ChatUtils;
 import schrumbo.bax.utils.ItemUtils;
@@ -75,13 +75,15 @@ public class Commands {
                                 })
                         )
                 )
+                //TODO change to pet name instead of uuid
                 .then(ClientCommandManager.literal("petswap")
-                        .executes(commandContext -> {
-                            config.setPetUUID(ItemUtils.getItemUUID(Objects.requireNonNull(ItemUtils.getHeldItem())));
-                            ConfigManager.save();
-                            ChatUtils.modMessage("set pet: " + config.getPetUUID());
-                            return 1;
-                        })
+                        .then(ClientCommandManager.literal("list")
+                                .executes(commandContext -> {
+                                    Config.Pet.ONE.getName();
+                                    Config.Pet.TWO.getName();
+                                    return 1;
+                                })
+                        )
 
                 )
         );

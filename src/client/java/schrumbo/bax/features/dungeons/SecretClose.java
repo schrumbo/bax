@@ -20,10 +20,9 @@ import static schrumbo.bax.utils.location.LocationManager.currentLocation;
 public class SecretClose {
     private static boolean enabled = config.getCloseSecrets();
 
-    //TODO optimise delay for watchdog
 
     /**
-     * closes a chest after clicking
+     * closes a chest after clicking, doesnt need a delay because it closes on user input
      * @param screen
      */
     public static boolean handleClick(HandledScreen<?> screen, double mouseX, double mouseY, int button){
