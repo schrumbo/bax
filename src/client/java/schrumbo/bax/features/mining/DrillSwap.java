@@ -66,7 +66,7 @@ public class DrillSwap {
      * switches to the drill slot after a short delay to avoid not clicking the royal pigeon
      */
     private static void switchToDrill() {
-       Utils.runAfterDelay(() -> ItemUtils.switchToSlot(findBestDrill()), 70);
+       Utils.runAfterDelay(() -> ItemUtils.switchToSlot(findBestDrill()), 89);
     }
 
 

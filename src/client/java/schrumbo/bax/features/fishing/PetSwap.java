@@ -58,8 +58,8 @@ public class PetSwap {
 
             if (hasFishHook && !rodWasThrown) {
                 rodWasThrown = true;
-                Utils.runAfterDelay(PetSwap::openMenu, 450);
-                Utils.runAfterDelay(PetSwap::swapToPet, 830);
+                Utils.runAfterDelay(PetSwap::openMenu, 500);
+                Utils.runAfterDelay(PetSwap::swapToPet, 900);
             } else if (!hasFishHook) {
                 rodWasThrown = false;
             }

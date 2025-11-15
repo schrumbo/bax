@@ -40,7 +40,8 @@ public class BaxClient implements ClientModInitializer {
 		LocationManager.register();
 		KeybindHandler.register();
 		PetNotification.register();
-		AutoReel.register();
+		//disabled auto reel in due to it being not safe and useless
+		//AutoReel.register();
 		PetSwap.register();
 		Commands.register();
 
