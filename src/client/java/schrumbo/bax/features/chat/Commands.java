@@ -75,17 +75,6 @@ public class Commands {
                                 })
                         )
                 )
-                //TODO change to pet name instead of uuid
-                .then(ClientCommandManager.literal("petswap")
-                        .then(ClientCommandManager.literal("list")
-                                .executes(commandContext -> {
-                                    Config.Pet.ONE.getName();
-                                    Config.Pet.TWO.getName();
-                                    return 1;
-                                })
-                        )
-
-                )
         );
     }
 }
