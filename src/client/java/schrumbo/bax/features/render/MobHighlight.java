@@ -1,4 +1,4 @@
-package schrumbo.bax.features.misc;
+package schrumbo.bax.features.render;
 
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
@@ -7,9 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
-import schrumbo.bax.Bax;
 import schrumbo.bax.utils.entity.CustomPlayerEntity;
 import schrumbo.bax.utils.location.Location;
 import schrumbo.bax.utils.location.LocationManager;
@@ -30,8 +28,6 @@ import static schrumbo.bax.utils.render.RenderUtils.renderHitbox;
 public class MobHighlight {
     public static void register(){
         WorldRenderEvents.AFTER_ENTITIES.register((context) -> {
-            List<String> names = highlightConfig.getHighlightList();
-
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.world == null || client.player == null) return;
 

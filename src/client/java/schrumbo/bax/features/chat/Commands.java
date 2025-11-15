@@ -1,11 +1,10 @@
-package schrumbo.bax.features.misc;
+package schrumbo.bax.features.chat;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.server.command.CommandManager;
 import schrumbo.bax.config.ConfigManager;
 import schrumbo.bax.utils.ChatUtils;
 import schrumbo.bax.utils.ItemUtils;

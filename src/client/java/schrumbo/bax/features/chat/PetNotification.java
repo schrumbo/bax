@@ -1,17 +1,12 @@
-package schrumbo.bax.features.misc;
+package schrumbo.bax.features.chat;
 
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
-import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import schrumbo.bax.Bax;
 import schrumbo.bax.utils.Utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static schrumbo.bax.BaxClient.client;
 import static schrumbo.bax.BaxClient.config;
 
 /**
