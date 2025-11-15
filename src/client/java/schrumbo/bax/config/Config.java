@@ -5,6 +5,9 @@ import com.mojang.datafixers.types.templates.List;
 import schrumbo.bax.Bax;
 import schrumbo.bax.utils.ChatUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Config {
     public boolean easyCommissions = false;
     public boolean getEasyCommissions(){
@@ -129,59 +132,8 @@ public class Config {
 
 
 
-    //PET KEYBINDS
-    public boolean petSwap = false;
-    public boolean getPetSwap(){
-        return petSwap;
-    }
-    public void setPetSwap(boolean value){
-        petSwap = value;
-    }
-
-
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();
-
-    //TODO den mist löschen und mit ner hash map arbeiten
-    /**
-     * enumeration for alle the pets which currently have pet keys
-     */
-    public enum Pet{
-
-        ONE("test", "test"),
-        TWO("", ""),
-        THREE("", ""),
-        FOUR("", ""),
-        FIVE("", ""),
-        SIX("", ""),
-        SEVEN("", ""),
-        EIGHT("", ""),
-        NINE("", "");
-
-    private String name;
-    private String uuid;
-    Pet(String petName, String uuid){
-        this.name = petName;
-        this.uuid = uuid;
-    }
-
-    public String getUUID(){
-        return uuid;
-    }
-    public String getName(){
-        return name;
-    }
-
-        /**
-         * changes the name and uuid of a pet in the enumeration
-         * @param name
-         * @param newUUID
-         */
-    public void changeEntry(String name, String newUUID){
-        this.name = name;
-        uuid = newUUID;
-    }
-}
 
     //ClickGuiColors
     public class ClickGUIColors{
