@@ -19,15 +19,12 @@
 
 ### Mining 
 - **Royal Pigeon Drill Swap** - automatically swaps to your drill after opening the Royal Pigeon
-- **Rod Drill Swap** - swaps to the drill after using the rod to trigger the bal autopetrule
 - **Lazy Commission Claiming** - lets you click anywhere on your screen to claim a commission
 - **Lazy Mineshaft Enter** - same as with Commissions
 - **Maniac highlighting** - highlights the maniacs inside the Mineshafts
 
-### Fishing
-
-- **Semi auto fishing** - automatically reels in your fishing rod if a fish bites
-- **Pet Swap** - swaps to a predefined pet after casting your rod 
+### Misc
+- **WIP - Pet Keybinds**
 
 
 ### Misc
