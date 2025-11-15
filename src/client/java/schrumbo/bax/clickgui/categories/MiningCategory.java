@@ -44,26 +44,9 @@ public class MiningCategory extends Category {
                 .label("Pigeon Drill Swap")
                 .value(config::getPigeonDrillSwap, config::setPigeonDrillSwap)
                 .build();
+        widgets.add(pigeonDrillSwap);
 
-        ToggleWidget rodDrillSwap = ToggleWidget.builder()
-                .width(width - 10)
-                .label("Rod Drill Swap")
-                .value(config::getRodDrillSwap, config::setRodDrillSwap)
-                .build();
-
-
-
-        WidgetDropdownWidget drillSwapDropdown = new WidgetDropdownWidget.Builder()
-                .y(startY + currentY)
-                .width(width)
-                .label("Drill Swap")
-                .addChild(pigeonDrillSwap)
-                .addChild(rodDrillSwap)
-                .build();
-
-        drillSwapDropdown.setParentCategory(this);
-        widgets.add(drillSwapDropdown);
-        currentY += drillSwapDropdown.getHeight() + WIDGET_SPACING;
+        currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
 
         //MANIAC HIGHLIGHT
         ToggleWidget maniacHighlight = ToggleWidget.builder()

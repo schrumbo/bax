@@ -1,6 +1,9 @@
 package schrumbo.bax.config;
 
 import com.google.gson.annotations.SerializedName;
+import com.mojang.datafixers.types.templates.List;
+import schrumbo.bax.Bax;
+import schrumbo.bax.utils.ChatUtils;
 
 public class Config {
     public boolean easyCommissions = false;
@@ -32,13 +35,6 @@ public class Config {
         pigeonDrillSwap = value;
     }
 
-    public boolean rodDrillSwap = false;
-    public boolean getRodDrillSwap(){
-        return rodDrillSwap;
-    }
-    public void setRodDrillSwap(boolean value){
-        rodDrillSwap = value;
-    }
 
     //STARRED HIGHLIGHT
     public boolean starredHighlight = false;
@@ -132,15 +128,8 @@ public class Config {
     }
 
 
-    //FISHING STUFF
-    public boolean autoReelIn = false;
-    public boolean getAutoReelIn(){
-        return autoReelIn;
-    }
-    public void setAutoReelIn(boolean value){
-        autoReelIn = value;
-    }
 
+    //PET KEYBINDS
     public boolean petSwap = false;
     public boolean getPetSwap(){
         return petSwap;
@@ -148,16 +137,51 @@ public class Config {
     public void setPetSwap(boolean value){
         petSwap = value;
     }
-    public String petUUID = "";
-    public String getPetUUID(){
-        return petUUID;
-    }
-    public void setPetUUID(String UUID){
-        petUUID = UUID;
-    }
+
 
     @SerializedName("guicolors")
     public ClickGUIColors guicolors = new ClickGUIColors();
+
+    //TODO den mist löschen und mit ner hash map arbeiten
+    /**
+     * enumeration for alle the pets which currently have pet keys
+     */
+    public enum Pet{
+
+        ONE("test", "test"),
+        TWO("", ""),
+        THREE("", ""),
+        FOUR("", ""),
+        FIVE("", ""),
+        SIX("", ""),
+        SEVEN("", ""),
+        EIGHT("", ""),
+        NINE("", "");
+
+    private String name;
+    private String uuid;
+    Pet(String petName, String uuid){
+        this.name = petName;
+        this.uuid = uuid;
+    }
+
+    public String getUUID(){
+        return uuid;
+    }
+    public String getName(){
+        return name;
+    }
+
+        /**
+         * changes the name and uuid of a pet in the enumeration
+         * @param name
+         * @param newUUID
+         */
+    public void changeEntry(String name, String newUUID){
+        this.name = name;
+        uuid = newUUID;
+    }
+}
 
     //ClickGuiColors
     public class ClickGUIColors{

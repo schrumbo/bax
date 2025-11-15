@@ -53,10 +53,6 @@ public class DrillSwap {
                 switchToDrill();
             }
 
-            if (config.rodDrillSwap && stack.getName().getString().contains("Rod")){
-                switchToDrill();
-            }
-
             return ActionResult.PASS;
         });
 
