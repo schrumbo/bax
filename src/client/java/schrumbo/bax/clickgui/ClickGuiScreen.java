@@ -40,8 +40,6 @@ public class ClickGuiScreen extends Screen {
     private boolean draggingPanel = false;
     private int dragOffsetX = 0;
     private int dragOffsetY = 0;
-    private int lastMouseX;
-    private int lastMouseY;
 
     public static final List<Category> categories = new ArrayList<>();
     private Category selectedCategory;
@@ -140,8 +138,6 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.lastMouseX = mouseX;
-        this.lastMouseY = mouseY;
 
         super.render(context, mouseX, mouseY, delta);
 
@@ -645,9 +641,6 @@ public class ClickGuiScreen extends Screen {
         return false;
     }
 
-    public static int getPanelX(){
-        return panelX;
-    }
 
     public static int getPanelY(){
         return panelY;

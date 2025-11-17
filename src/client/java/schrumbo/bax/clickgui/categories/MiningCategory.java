@@ -40,7 +40,7 @@ public class MiningCategory extends Category {
 
         //DRILL SWAP
         ToggleWidget pigeonDrillSwap = ToggleWidget.builder()
-                .width(width - 10)
+                .width(width )
                 .label("Pigeon Drill Swap")
                 .value(config::getPigeonDrillSwap, config::setPigeonDrillSwap)
                 .build();
