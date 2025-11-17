@@ -33,24 +33,12 @@ public class Commands {
                                             return 1;
                                         })
                                 )
-                                .then(ClientCommandManager.literal("starred")
-                                        .executes(commandContext -> {
-                                            highlightConfig.addName("✯");
-                                            return 1;
-                                        })
-                                )
                         )
                         .then(ClientCommandManager.literal("remove")
                                 .then(ClientCommandManager.argument("name", StringArgumentType.string())
                                         .executes(commandContext -> {
                                             String name = StringArgumentType.getString(commandContext, "name");
                                             highlightConfig.removeName(name);
-                                            return 1;
-                                        })
-                                )
-                                .then(ClientCommandManager.literal("starred")
-                                        .executes(commandContext -> {
-                                            highlightConfig.removeName("✯");
                                             return 1;
                                         })
                                 )
