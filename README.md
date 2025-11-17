@@ -24,7 +24,7 @@
 - **Maniac highlighting** - highlights the maniacs inside the Mineshafts
 
 ### Misc
-- **WIP - Pet Keybinds**
+- **Pet Keybinds**
 
 
 ### Misc
@@ -43,7 +43,7 @@
 - `/bax highlight remove <name>` - Remove entity name from list
 - `/bax highlight list` - Show all highlighted entity names
 - `/bax highlight clear` - Clear all highlight
-- `/bax petswap` - use whilst holding a pet to set the pet for petswap
+- `/bax pet set <index>` - use whilst holding a pet to set the pet for petswap
 
 ---
 
