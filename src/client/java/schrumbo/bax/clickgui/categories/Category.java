@@ -75,6 +75,11 @@ public abstract class Category {
         }
     }
 
+    /**
+     * updates widget positions to stay in the right poisition
+     * @param startX
+     * @param startY
+     */
     protected void updateWidgetPositions(int startX, int startY) {
         currentY = 0;
         for (Widget widget : widgets) {
@@ -85,7 +90,13 @@ public abstract class Category {
         widgetsHeight = currentY;
     }
 
-
+    /**
+     * renders widgets
+     * @param context
+     * @param mouseX
+     * @param mouseY
+     * @param delta
+     */
     public void renderWidgets(DrawContext context, int mouseX, int mouseY, float delta) {
         for (Widget widget : widgets) {
             widget.render(context, mouseX, mouseY, delta);
@@ -99,7 +110,13 @@ public abstract class Category {
         }
     }
 
-
+    /**
+     * renders category label
+     * @param context
+     * @param mouseX
+     * @param mouseY
+     * @param isSelected
+     */
     public void renderHeader(DrawContext context, int mouseX, int mouseY, boolean isSelected) {
         boolean hovered = isHeaderHovered(mouseX, mouseY);
 
@@ -182,22 +199,11 @@ public abstract class Category {
         return false;
     }
 
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        for (Widget widget : widgets) {
-            if (widget.keyPressed(keyCode, scanCode, modifiers)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
 
     public boolean isHeaderHovered(double mouseX, double mouseY) {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + HEADER_HEIGHT;
-    }
-
-    public int getTotalHeight() {
-        return HEADER_HEIGHT;
     }
 
     public int getHeaderHeight() {
@@ -210,16 +216,9 @@ public abstract class Category {
         this.width = width;
     }
 
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
 
     public String getName() {
         return name;
     }
 
-    public boolean isWidgetsInitialized() {
-        return widgetsInitialized;
-    }
 }
