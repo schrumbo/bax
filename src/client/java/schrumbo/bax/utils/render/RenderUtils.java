@@ -1,12 +1,10 @@
 package schrumbo.bax.utils.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
@@ -18,12 +16,7 @@ import static schrumbo.bax.BaxClient.highlightConfig;
 
 public class RenderUtils {
 
-    /**
-     * renders the hitbox of an entity
-     * @param entity
-     * @param camera
-     * @param matrices
-     */
+
     public static void renderHitbox(Entity entity, Camera camera, MatrixStack matrices, int color) {
         Vec3d cameraPos = camera.getPos();
         Box box = entity.getBoundingBox().offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
@@ -32,38 +25,87 @@ public class RenderUtils {
 
         VertexConsumerProvider.Immediate vcp = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
 
-        RenderLayer layer = RenderLayer.getLines();
-        VertexConsumer buffer = vcp.getBuffer(layer);
+        int fillColor = config.colorWithAlpha(color, 0.15f);
+        RenderLayer fillLayer = RenderLayer.getDebugQuads();
+        VertexConsumer fillBuffer = vcp.getBuffer(fillLayer);
+        drawFilledBox(matrices, fillBuffer, box, fillColor);
+        vcp.draw(fillLayer);
 
-        drawOutlinedBox(matrices, buffer, box, color);
-
-        vcp.draw(layer);
+        RenderLayer lineLayer = RenderLayer.getLines();
+        VertexConsumer lineBuffer = vcp.getBuffer(lineLayer);
+        drawOutlinedBox(matrices, lineBuffer, box, color);
+        vcp.draw(lineLayer);
 
         postRender();
     }
 
-    /**
-     * renders a box
-     * @param box
-     * @param camera
-     * @param matrices
-     * @param color
-     */
     public static void renderBox(Box box, Camera camera, MatrixStack matrices, int color) {
         Vec3d cameraPos = camera.getPos();
+        Box offsetBox = box.offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+
         preRender();
 
         VertexConsumerProvider.Immediate vcp = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
 
-        RenderLayer layer = RenderLayer.getLines();
-        VertexConsumer buffer = vcp.getBuffer(layer);
+        int fillColor = config.colorWithAlpha(color, 0.15f);
+        RenderLayer fillLayer = RenderLayer.getDebugQuads();
+        VertexConsumer fillBuffer = vcp.getBuffer(fillLayer);
+        drawFilledBox(matrices, fillBuffer, offsetBox, fillColor);
+        vcp.draw(fillLayer);
 
-        drawOutlinedBox(matrices, buffer, box.offset(-cameraPos.x, -cameraPos.y, -cameraPos.z), color);
-
-        vcp.draw(layer);
+        RenderLayer lineLayer = RenderLayer.getLines();
+        VertexConsumer lineBuffer = vcp.getBuffer(lineLayer);
+        drawOutlinedBox(matrices, lineBuffer, offsetBox, color);
+        vcp.draw(lineLayer);
 
         postRender();
     }
+
+    private static void drawFilledBox(MatrixStack matrices, VertexConsumer buffer, Box box, int color) {
+        MatrixStack.Entry entry = matrices.peek();
+        float x1 = (float)box.minX;
+        float y1 = (float)box.minY;
+        float z1 = (float)box.minZ;
+        float x2 = (float)box.maxX;
+        float y2 = (float)box.maxY;
+        float z2 = (float)box.maxZ;
+
+        int a = (color >> 24) & 0xFF;
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = color & 0xFF;
+
+        buffer.vertex(entry, x1, y1, z1).color(r, g, b, a);
+        buffer.vertex(entry, x1, y1, z2).color(r, g, b, a);
+        buffer.vertex(entry, x2, y1, z2).color(r, g, b, a);
+        buffer.vertex(entry, x2, y1, z1).color(r, g, b, a);
+
+        buffer.vertex(entry, x1, y2, z1).color(r, g, b, a);
+        buffer.vertex(entry, x2, y2, z1).color(r, g, b, a);
+        buffer.vertex(entry, x2, y2, z2).color(r, g, b, a);
+        buffer.vertex(entry, x1, y2, z2).color(r, g, b, a);
+
+        buffer.vertex(entry, x1, y1, z1).color(r, g, b, a);
+        buffer.vertex(entry, x2, y1, z1).color(r, g, b, a);
+        buffer.vertex(entry, x2, y2, z1).color(r, g, b, a);
+        buffer.vertex(entry, x1, y2, z1).color(r, g, b, a);
+
+        buffer.vertex(entry, x2, y1, z2).color(r, g, b, a);
+        buffer.vertex(entry, x1, y1, z2).color(r, g, b, a);
+        buffer.vertex(entry, x1, y2, z2).color(r, g, b, a);
+        buffer.vertex(entry, x2, y2, z2).color(r, g, b, a);
+
+        buffer.vertex(entry, x1, y1, z2).color(r, g, b, a);
+        buffer.vertex(entry, x1, y1, z1).color(r, g, b, a);
+        buffer.vertex(entry, x1, y2, z1).color(r, g, b, a);
+        buffer.vertex(entry, x1, y2, z2).color(r, g, b, a);
+
+        buffer.vertex(entry, x2, y1, z1).color(r, g, b, a);
+        buffer.vertex(entry, x2, y1, z2).color(r, g, b, a);
+        buffer.vertex(entry, x2, y2, z2).color(r, g, b, a);
+        buffer.vertex(entry, x2, y2, z1).color(r, g, b, a);
+    }
+
 
     /**
      * disables DepthTest before rendering
@@ -73,7 +115,8 @@ public class RenderUtils {
         if (!highlightConfig.depthCheck){
             GL11.glDisable(GL11.GL_DEPTH_TEST);
         }
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
     /**
@@ -84,7 +127,8 @@ public class RenderUtils {
         if (!highlightConfig.depthCheck){
             GL11.glEnable(GL11.GL_DEPTH_TEST);
         }
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
     /**

@@ -26,6 +26,13 @@ public class MiscCategory extends Category{
 
         currentY += widgets.get(widgets.size() - 1).getHeight() + WIDGET_SPACING;
 
+        ToggleWidget petSwap = ToggleWidget
+                .builder()
+                .y(currentY).width(width).label("Pet Keybinds")
+                .value(config::getPetSwap, config::setPetSwap)
+                .build();
+        widgets.add(petSwap);
+
         updateWidgetPositions(startX, startY);
     }
 }
