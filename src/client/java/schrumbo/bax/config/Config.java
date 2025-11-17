@@ -1,12 +1,11 @@
 package schrumbo.bax.config;
 
 import com.google.gson.annotations.SerializedName;
-import com.mojang.datafixers.types.templates.List;
-import schrumbo.bax.Bax;
-import schrumbo.bax.utils.ChatUtils;
+import schrumbo.bax.features.misc.PetSwap;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class Config {
     public boolean easyCommissions = false;
@@ -129,6 +128,16 @@ public class Config {
     public void setPetNotification(boolean value){
         petNotification = value;
     }
+
+    public boolean petSwap = false;
+    public boolean getPetSwap(){
+        return petSwap;
+    }
+    public void setPetSwap(boolean value){
+        petSwap = value;
+    }
+    @SerializedName("savedPets")
+    public Map<Integer, PetSwap.PetData> savedPets = new HashMap<>();
 
 
 

@@ -111,6 +111,11 @@ public class ItemUtils {
         }
     }
 
+    /**
+     * gets the uuid for an item
+     * @param item
+     * @return
+     */
     public static String getItemUUID(ItemStack item) {
         NbtComponent customData = item.get(DataComponentTypes.CUSTOM_DATA);
         if (customData == null) return null;
@@ -120,6 +125,11 @@ public class ItemUtils {
         return nbt.getString("uuid").orElse(null);
     }
 
+    /**
+     * gets a slot of an item with a specific uuid
+     * @param uuid
+     * @return
+     */
     public static int getSlotByUUID(String uuid) {
         if (client.player == null) return -1;
 

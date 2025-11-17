@@ -5,7 +5,8 @@ import net.minecraft.client.MinecraftClient;
 import schrumbo.bax.config.Config;
 import schrumbo.bax.config.ConfigManager;
 import schrumbo.bax.config.HighlightConfig;
-import schrumbo.bax.features.fishing.PetSwap;
+import schrumbo.bax.features.misc.PetCommand;
+import schrumbo.bax.features.misc.PetSwap;
 import schrumbo.bax.features.mining.DrillSwap;
 import schrumbo.bax.features.chat.Commands;
 import schrumbo.bax.features.render.MobHighlight;
@@ -37,6 +38,10 @@ public class BaxClient implements ClientModInitializer {
 		KeybindHandler.register();
 		PetNotification.register();
 		Commands.register();
+
+		PetSwap.register();
+		PetSwap.loadFromConfig(config.savedPets);
+		PetCommand.register();
 
 		//HudRenderTesting.register();
 	}
