@@ -9,5 +9,5 @@ If you have any suggestions feel free to dm me on discord: schrumboo.
 
 ---
 To open the main menu press ```rshift``` or change the keybind in the settings
-
+ 
 
