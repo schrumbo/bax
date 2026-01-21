@@ -4,14 +4,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 import schrumbo.bax.clickgui.ClickGuiScreen;
-import schrumbo.bax.utils.entity.EntityUtils;
-
-import java.util.Objects;
-
-import static schrumbo.bax.BaxClient.config;
 
 
 /**

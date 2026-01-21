@@ -3,8 +3,6 @@ package schrumbo.bax.utils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
-import static schrumbo.bax.BaxClient.config;
-
 public class ChatUtils {
     private static final MinecraftClient client = MinecraftClient.getInstance();
 

@@ -9,11 +9,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import schrumbo.bax.Bax;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static schrumbo.bax.BaxClient.client;
 
