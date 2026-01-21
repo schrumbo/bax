@@ -18,7 +18,7 @@ public class PetNotification {
     private static final Pattern pattern = Pattern.compile("Your (.+?) leveled up to level (\\d+)!");
 
     public static void register(){
-        //note for me: GAME for multiplayer messages and CHAT for singleplayer
+        //note for me: GAME for multiplayer messages and CHAT for single player
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
             if (!enabled)return;
             String pet = "";

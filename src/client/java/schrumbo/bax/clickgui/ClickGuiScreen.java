@@ -40,8 +40,6 @@ public class ClickGuiScreen extends Screen {
     private boolean draggingPanel = false;
     private int dragOffsetX = 0;
     private int dragOffsetY = 0;
-    private int lastMouseX;
-    private int lastMouseY;
 
     public static final List<Category> categories = new ArrayList<>();
     private Category selectedCategory;
@@ -136,8 +134,6 @@ public class ClickGuiScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.lastMouseX = mouseX;
-        this.lastMouseY = mouseY;
 
         super.render(context, mouseX, mouseY, delta);
 
@@ -198,6 +194,16 @@ public class ClickGuiScreen extends Screen {
         renderWidgets(context, scale, contentY, contentAreaHeight, scaledMouseX, scaledMouseY, delta);
     }
 
+    /**
+     * renders the widgets of the currently selected category
+     * @param context
+     * @param scale
+     * @param contentY
+     * @param contentAreaHeight
+     * @param scaledMouseX
+     * @param scaledMouseY
+     * @param delta
+     */
     private void renderWidgets(DrawContext context, float scale, float contentY, int contentAreaHeight, float scaledMouseX, float scaledMouseY, float delta){
         var matrices = context.getMatrices();
 
@@ -232,7 +238,10 @@ public class ClickGuiScreen extends Screen {
         context.disableScissor();
     }
 
-
+    /**
+     * updates search results
+     * @param query
+     */
     private void updateFilteredWidgets(String query) {
         filteredWidgets.clear();
 
@@ -245,7 +254,6 @@ public class ClickGuiScreen extends Screen {
         List<Widget> bestMatchWidgets = new ArrayList<>();
 
         for (Category category : categories) {
-            // Initialisiere Widgets falls noch nicht geschehen
             if (category.widgets.isEmpty()) {
                 category.initializeWidgetsIfNeeded(widgetX, panelY + TITLE_BAR_HEIGHT + 10, widgetWidth);
             }
@@ -279,6 +287,11 @@ public class ClickGuiScreen extends Screen {
         }
     }
 
+    /**
+     * Gets all categories which have widgets that match the user's search
+     * - sets the selected category to the next best match if the current selected category is emtpy
+     * @return List of all categories which should be shown
+     */
     private List<Category> getFilteredCategories() {
         if (lastSearchQuery.isEmpty()) {
             return categories;
@@ -286,15 +299,14 @@ public class ClickGuiScreen extends Screen {
 
         List<Category> filtered = new ArrayList<>();
         for (Category category : categories) {
-            if (category.getName().toLowerCase().contains(lastSearchQuery)) {
-                filtered.add(category);
-                continue;
-            }
 
             boolean hasMatchingWidget = false;
             for (Widget widget : category.widgets) {
                 if (widget.label.toLowerCase().contains(lastSearchQuery)) {
                     hasMatchingWidget = true;
+                    if(getFilteredWidgetsForCategory(selectedCategory).isEmpty()){
+                        selectedCategory = category;
+                    }
                     break;
                 }
             }
@@ -305,6 +317,11 @@ public class ClickGuiScreen extends Screen {
         return filtered;
     }
 
+    /**
+     * gets all widgets that should be visible for a category
+     * @param category
+     * @return List of Widgets
+     */
     private List<Widget> getFilteredWidgetsForCategory(Category category) {
         if (lastSearchQuery.isEmpty()) {
             return category.widgets;
@@ -319,6 +336,13 @@ public class ClickGuiScreen extends Screen {
         return filtered;
     }
 
+    /**
+     * Renders only widgets that match the users search
+     * @param context
+     * @param mouseX
+     * @param mouseY
+     * @param delta
+     */
     private void renderFilteredWidgets(DrawContext context, int mouseX, int mouseY, float delta) {
         if (selectedCategory == null) return;
 
@@ -612,9 +636,6 @@ public class ClickGuiScreen extends Screen {
         return false;
     }
 
-    public static int getPanelX(){
-        return panelX;
-    }
 
     public static int getPanelY(){
         return panelY;
