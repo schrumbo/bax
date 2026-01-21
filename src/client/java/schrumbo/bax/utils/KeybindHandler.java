@@ -18,39 +18,26 @@ import static schrumbo.bax.BaxClient.config;
  * handles keybindings
  */
 public class KeybindHandler {
-    private static KeyBinding entityDebugKey;
     private static KeyBinding configKey;
     private static final String CATEGORY = "Bax";
-
-
 
     /**
      * registers all keybinds
      */
     public static void register(){
         configKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Open Config",
+                "Bax Config",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_RIGHT_SHIFT,
                 CATEGORY
         ));
 
-        entityDebugKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "Debug Entities",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_DOWN,
-                CATEGORY
-        ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
             if(configKey.wasPressed()){
                 client.setScreen(new ClickGuiScreen());
             }
-            if (entityDebugKey.wasPressed()){
-                EntityUtils.debugWitherEntities();
-            }
-
         });
 
 

@@ -12,7 +12,6 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import static schrumbo.bax.BaxClient.config;
-import static schrumbo.bax.BaxClient.highlightConfig;
 
 public class RenderUtils {
 
@@ -106,29 +105,15 @@ public class RenderUtils {
         buffer.vertex(entry, x2, y2, z1).color(r, g, b, a);
     }
 
-
     /**
-     * disables DepthTest before rendering
+     * changes line width during rendering
      */
     public static void preRender(){
         RenderSystem.lineWidth(4.0f);
-        if (!highlightConfig.depthCheck){
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-        }
-        GL11.glDepthMask(false);
-        GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
-    /**
-     * reenables DepthTest after rendering
-     */
     public static void postRender(){
         RenderSystem.lineWidth(1.0f);
-        if (!highlightConfig.depthCheck){
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-        }
-        GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
     /**

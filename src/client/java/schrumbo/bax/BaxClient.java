@@ -4,19 +4,13 @@ import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import schrumbo.bax.config.Config;
 import schrumbo.bax.config.ConfigManager;
-import schrumbo.bax.config.HighlightConfig;
-import schrumbo.bax.features.misc.PetCommand;
-import schrumbo.bax.features.misc.PetSwap;
-import schrumbo.bax.features.mining.DrillSwap;
-import schrumbo.bax.features.chat.Commands;
-import schrumbo.bax.features.render.MobHighlight;
 import schrumbo.bax.features.chat.PetNotification;
 import schrumbo.bax.utils.KeybindHandler;
 import schrumbo.bax.utils.location.LocationManager;
 
 public class BaxClient implements ClientModInitializer {
 	public static Config config;
-	public static HighlightConfig highlightConfig;
+
 	public static ConfigManager configManager;
 	public static MinecraftClient client = MinecraftClient.getInstance();
 
@@ -27,22 +21,10 @@ public class BaxClient implements ClientModInitializer {
 		//CONFIG INIT HERE
 		configManager = new ConfigManager();
 		config = ConfigManager.load();
-		highlightConfig = ConfigManager.loadHighlightConfig();
 
-
-
-		//FEATURE REGISTRATION HERE
-		DrillSwap.register();
-		MobHighlight.register();
 		LocationManager.register();
 		KeybindHandler.register();
 		PetNotification.register();
-		Commands.register();
 
-		PetSwap.register();
-		PetSwap.loadFromConfig(config.savedPets);
-		PetCommand.register();
-
-		//HudRenderTesting.register();
 	}
 }

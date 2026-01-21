@@ -3,7 +3,6 @@ package schrumbo.bax.clickgui.widgets;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import schrumbo.bax.utils.render.RenderUtils;
 
 import static schrumbo.bax.BaxClient.config;
 
@@ -67,10 +66,10 @@ public class SearchBar {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button != 0) return false;
 
-        boolean wasInside = mouseX >= x && mouseX <= x + width &&
+        boolean clicked = mouseX >= x && mouseX <= x + width &&
                 mouseY >= y && mouseY <= y + height;
 
-        if (wasInside) {
+        if (clicked) {
             if (!focused) {
                 focused = true;
                 cursorPosition = text.length();

@@ -61,9 +61,6 @@ public class ClickGuiScreen extends Screen {
 
         categories.clear();
         categories.add(new GeneralCategory());
-        categories.add(new HighlightCategory());
-        categories.add(new MiningCategory());
-        categories.add(new DungeonCategory());
         categories.add(new MiscCategory());
         if (config.selectedCategory != null){
             for (Category c : categories){
@@ -98,7 +95,6 @@ public class ClickGuiScreen extends Screen {
         int searchBarX = panelX + 2;
         int searchBarY = panelY + 1;
         searchBar = new SearchBar(searchBarX, searchBarY, searchBarWidth, searchBarHeight);
-
     }
 
     @Override
@@ -605,7 +601,6 @@ public class ClickGuiScreen extends Screen {
     @Override
     public void close() {
         ConfigManager.save();
-        ConfigManager.saveHighlightConfig();
         if (selectedCategory != null){
             config.selectedCategory = selectedCategory.getName();
         }
